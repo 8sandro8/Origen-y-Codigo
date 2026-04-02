@@ -1,6 +1,7 @@
 package com.origencodigo.dao;
 
 import org.jdbi.v3.core.Jdbi;
+import org.jdbi.v3.core.Handle;
 import org.jdbi.v3.sqlobject.SqlObjectPlugin;
 import java.io.InputStream;
 import java.util.Properties;
@@ -13,7 +14,7 @@ public class Database {
     private static final String DEFAULT_PASSWORD = "";
 
     public static Jdbi jdbi;
-    public static Jdbi.Handle db;
+    public static Handle db;
 
     static {
         loadConfiguration();
