@@ -1,0 +1,109 @@
+# ===============================================
+# GITIGNORE OPTIMIZADO PARA PROYECTO JAVA WEB
+# ===============================================
+
+# ---- COMPILACIÓN JAVA ----
+*.class
+*.jar
+*.war
+*.ear
+*.nar
+
+# ---- DIRECTORIOS DE BUILD ----
+target/
+build/
+out/
+bin/
+
+# ---- IDEs ----
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+.idea_modules/
+*.ipr
+
+# Eclipse
+.settings/
+.classpath
+.project
+bin/
+.metadata
+*.classpath
+*.project
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# NetBeans
+nbproject/
+nbactions.xml
+nbbuild.xml
+build.xml
+
+# ---- SISTEMA OPERATIVO ----
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Icon?
+._*
+
+# Linux
+*~ 
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# ---- LOGS Y TEMPORALES ----
+*.log
+*.log.*
+logs/
+*.tmp
+*.bak
+*.swp
+*.swo
+*~
+*.orig
+
+# ---- DEPENDENCIAS EXTERNAS ----
+lib/
+libs/
+.externalLibraries/
+WEB-INF/lib/
+WEB-INF/libs/
+
+# ---- TEMPORALES WEB ----
+*.temp
+*.cache
+*.suppress
+
+# ---- SENSIBLES ----
+*.env
+*.env.local
+*.env.*.local
+config.properties
+*.pem
+*.key
+
+# ===============================================
+# 4 ARCHIVOS DE SISTEMA - NUNCA SUBIR
+# ===============================================
+.clinerules
+agents.md
+PRD.md
+SDD.md
