@@ -1,10 +1,10 @@
 package com.origencodigo.dao;
 
 import com.origencodigo.model.Categoria;
-import org.jdbi.v3.sqlobject.SqlQuery;
-import org.jdbi.v3.sqlobject.SqlUpdate;
-import org.jdbi.v3.sqlobject.RegisterBeanMapper;
-import org.jdbi.v3.sqlobject.annotation.Bind;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.annotation.SqlObject;
 import java.util.List;
 

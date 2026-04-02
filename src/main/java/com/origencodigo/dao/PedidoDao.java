@@ -1,12 +1,14 @@
 package com.origencodigo.dao;
 
 import com.origencodigo.model.Pedido;
-import org.jdbi.v3.sqlobject.SqlQuery;
-import org.jdbi.v3.sqlobject.SqlUpdate;
-import org.jdbi.v3.sqlobject.RegisterBeanMapper;
-import org.jdbi.v3.sqlobject.annotation.Bind;
+import org.jdbi.v3.sqlobject.statement.SqlQuery;
+import org.jdbi.v3.sqlobject.statement.SqlUpdate;
+import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
+import org.jdbi.v3.sqlobject.customizer.Bind;
 import org.jdbi.v3.sqlobject.annotation.SqlObject;
 import java.util.List;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @RegisterBeanMapper(Pedido.class)
 public interface PedidoDao extends SqlObject {
@@ -21,7 +23,7 @@ public interface PedidoDao extends SqlObject {
     List<Pedido> getByUsuario(@Bind("usuarioId") int usuarioId);
 
     @SqlUpdate("INSERT INTO pedidos (usuario_id, fecha_pedido, total, estado) VALUES (:usuarioId, :fechaPedido, :total, :estado)")
-    int add(@Bind("usuarioId") int usuarioId, @Bind("fechaPedido") java.time.LocalDateTime fechaPedido, @Bind("total") java.math.BigDecimal total, @Bind("estado") String estado);
+    int add(@Bind("usuarioId") int usuarioId, @Bind("fechaPedido") LocalDateTime fechaPedido, @Bind("total") BigDecimal total, @Bind("estado") String estado);
 
     @SqlUpdate("UPDATE pedidos SET estado = :estado WHERE id = :id")
     int update(@Bind("id") int id, @Bind("estado") String estado);
