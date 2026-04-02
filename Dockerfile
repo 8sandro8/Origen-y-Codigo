@@ -16,6 +16,6 @@ RUN mvn clean package -DskipTests
 # ============================================
 FROM tomcat:10-jdk17
 
-COPY --from=builder /build/target/tienda-cafe.war $CATALINA_HOME/webapps/
+COPY --from=builder /build/target/tienda-cafe.war $CATALINA_HOME/webapps/ROOT.war
 
 EXPOSE 8080
