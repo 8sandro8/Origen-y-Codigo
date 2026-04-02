@@ -33,6 +33,13 @@
             <version>${jdbi.version}</version>
         </dependency>
 
+        <!-- Jdbi SQL Object - para anotaciones @SqlQuery, @SqlUpdate -->
+        <dependency>
+            <groupId>org.jdbi</groupId>
+            <artifactId>jdbi3-sqlobject</artifactId>
+            <version>${jdbi.version}</version>
+        </dependency>
+
         <!-- Lombok - Anotaciones @Data, @AllArgsConstructor, etc. -->
         <dependency>
             <groupId>org.projectlombok</groupId>
