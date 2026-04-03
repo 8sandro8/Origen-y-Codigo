@@ -25,7 +25,9 @@ services:
       - MYSQL_DATABASE=origen_codigo
     volumes:
       - mariadb_data:/var/lib/mysql
-      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      # AÑADIMOS PREFIJOS NUMÉRICOS PARA FORZAR EL ORDEN DE EJECUCIÓN
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/02-init.sql
     restart: unless-stopped
 
 volumes:
