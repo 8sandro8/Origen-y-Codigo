@@ -26,6 +26,16 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="${pageContext.request.contextPath}/list-productos">Productos</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="#">
+                            <i class="bi bi-cart"></i>
+                            <c:if test="${sessionScope.carrito != null && sessionScope.carrito.size() > 0}">
+                                <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                    ${sessionScope.carrito.size()}
+                                </span>
+                            </c:if>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

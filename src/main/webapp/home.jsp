@@ -47,6 +47,16 @@
                                 <li class="nav-item ms-3"><a class="nav-link fs-5"
                                         href="${pageContext.request.contextPath}/list-productos"><i
                                             class="bi bi-grid-3x3-gap"></i> Catálogo</a></li>
+                                <li class="nav-item ms-3">
+                                    <a class="nav-link fs-5 position-relative" href="#">
+                                        <i class="bi bi-cart"></i>
+                                        <c:if test="${sessionScope.carrito != null && sessionScope.carrito.size() > 0}">
+                                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                                ${sessionScope.carrito.size()}
+                                            </span>
+                                        </c:if>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -99,8 +109,11 @@
                                             </div>
                                             <c:choose>
                                                 <c:when test="${producto.stockDisponible}">
-                                                    <button class="btn btn-warning w-100 fw-bold"><i
-                                                            class="bi bi-cart-plus me-2"></i>Añadir</button>
+                                                    <form action="${pageContext.request.contextPath}/add-to-cart" method="post">
+                                                        <input type="hidden" name="id" value="${producto.id}">
+                                                        <button type="submit" class="btn btn-warning w-100 fw-bold"><i
+                                                                class="bi bi-cart-plus me-2"></i>Añadir</button>
+                                                    </form>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <button class="btn btn-secondary w-100 fw-bold" disabled><i
