@@ -48,7 +48,7 @@
                                         href="${pageContext.request.contextPath}/list-productos"><i
                                             class="bi bi-grid-3x3-gap"></i> Catálogo</a></li>
                                 <li class="nav-item ms-3">
-                                    <a class="nav-link fs-5 position-relative" href="#">
+                                    <a class="nav-link fs-5 position-relative" href="${pageContext.request.contextPath}/cart">
                                         <i class="bi bi-cart"></i>
                                         <c:if test="${sessionScope.carrito != null && sessionScope.carrito.size() > 0}">
                                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
