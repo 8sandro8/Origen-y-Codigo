@@ -5,19 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuevo Producto - Origen & Código</title>
+    <title>Nuevo Producto - Origen &amp; Código</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
-        body { background-color: #f8f9fa; }
-        .form-card { border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    </style>
 </head>
-<body>
+<body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
             <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-                <i class="bi bi-cup-hot"></i> Origen & Código
+                <i class="bi bi-cup-hot"></i> Origen &amp; Código
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -38,7 +34,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="form-card bg-white p-4">
+                <div class="card shadow-sm p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h2 class="mb-0">Nuevo Producto</h2>
                         <a href="${pageContext.request.contextPath}/list-productos" class="btn btn-outline-secondary">

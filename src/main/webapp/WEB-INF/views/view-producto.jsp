@@ -5,20 +5,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle Producto - Origen & Código</title>
+    <title>Detalle Producto - Origen &amp; Código</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-    <style>
-        body { background-color: #f8f9fa; }
-        .detail-card { border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .img-producto { max-width: 100%; max-height: 400px; object-fit: contain; border-radius: 8px; }
-    </style>
 </head>
-<body>
+<body class="bg-light">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
         <div class="container">
             <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-                <i class="bi bi-cup-hot"></i> Origen & Código
+                <i class="bi bi-cup-hot"></i> Origen &amp; Código
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -39,7 +34,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="detail-card bg-white p-4">
+                <div class="card shadow-sm p-4">
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h2 class="mb-0">Detalle del Producto</h2>
                         <a href="${pageContext.request.contextPath}/list-productos" class="btn btn-outline-secondary">
@@ -51,10 +46,10 @@
                         <div class="col-md-5">
                             <c:choose>
                                 <c:when test="${not empty producto.imagenUrl}">
-                                    <img src="${producto.imagenUrl}" alt="${producto.nombre}" class="img-producto">
+                                    <img src="${producto.imagenUrl}" alt="${producto.nombre}" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
                                 </c:when>
                                 <c:otherwise>
-                                    <div class="bg-secondary d-flex align-items-center justify-content-center text-white" style="height: 300px; border-radius: 8px;">
+                                    <div class="bg-secondary d-flex align-items-center justify-content-center text-white rounded" style="height: 300px;">
                                         <i class="bi bi-image fs-1"></i>
                                     </div>
                                 </c:otherwise>

@@ -21,6 +21,12 @@ public interface UsuarioDao extends SqlObject {
     @SqlQuery("SELECT * FROM usuarios WHERE email = :email")
     Usuario getByEmail(@Bind("email") String email);
 
+    @SqlQuery("SELECT * FROM usuarios WHERE email = :email AND contrasena = :contrasenaHash")
+    Usuario verificarContrasena(@Bind("email") String email, @Bind("contrasenaHash") String contrasenaHash);
+
+    @SqlUpdate("UPDATE usuarios SET contrasena = :contrasena WHERE id = :id")
+    int actualizarContrasena(@Bind("id") int id, @Bind("contrasena") String contrasena);
+
     @SqlUpdate("INSERT INTO usuarios (nombre, email, contrasena, fecha_registro, es_admin) VALUES (:nombre, :email, :contrasena, :fechaRegistro, :esAdmin)")
     int add(@Bind("nombre") String nombre, @Bind("email") String email, @Bind("contrasena") String contrasena, @Bind("fechaRegistro") LocalDate fechaRegistro, @Bind("esAdmin") boolean esAdmin);
 
