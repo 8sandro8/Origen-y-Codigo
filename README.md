@@ -27,3 +27,6 @@ src/
 - Basado en las convenciones de java.codeandcoke.com
 - Patrón MVC + DAO
 - MariaDB como motor de BBDD
+- Tablas en minúsculas (snake_case)
+- Carrito en HttpSession (sin BBDD)
+- Fragmentos JSP en /WEB-INF/views/components/

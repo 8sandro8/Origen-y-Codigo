@@ -6,7 +6,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="position-absolute top-50 start-50 translate-middle" href="${pageContext.request.contextPath}/" style="z-index: 10;">
-            <img src="${pageContext.request.contextPath}/images/logo-transparente.png" alt="Origen y Código" style="height: 120px; object-fit: contain; transform: scale(1.5);">
+            <img src="${pageContext.request.contextPath}/images/logo-transparente.png" alt="Origen y Código" style="max-height: 70px; object-fit: contain;">
         </a>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
