@@ -14,7 +14,7 @@ public class Database {
             // Carga explícita del driver MariaDB
             Class.forName("org.mariadb.jdbc.Driver");
             // Conexión al NAS Synology
-            jdbi = Jdbi.create("jdbc:mariadb://192.168.1.77:4010/origen_codigo", "root", "root");
+            jdbi = Jdbi.create("jdbc:mariadb://db:3306/origen_codigo", "root", "rootpassword");
             jdbi.installPlugin(new SqlObjectPlugin());
             db = jdbi.open();
         } catch (ClassNotFoundException e) {

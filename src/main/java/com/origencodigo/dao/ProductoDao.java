@@ -12,16 +12,16 @@ import java.math.BigDecimal;
 @RegisterBeanMapper(Producto.class)
 public interface ProductoDao extends SqlObject {
 
-    @SqlQuery("SELECT * FROM productos")
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos")
     List<Producto> getAll();
 
-    @SqlQuery("SELECT * FROM productos WHERE id = :id")
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE id = :id")
     Producto getById(@Bind("id") int id);
 
-    @SqlQuery("SELECT * FROM productos WHERE categoria_id = :categoriaId")
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE categoria_id = :categoriaId")
     List<Producto> getByCategoria(@Bind("categoriaId") int categoriaId);
 
-    @SqlQuery("SELECT * FROM productos WHERE nombre LIKE CONCAT('%', :nombre, '%') AND origen LIKE CONCAT('%', :origen, '%')")
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE nombre LIKE CONCAT('%', :nombre, '%') AND origen LIKE CONCAT('%', :origen, '%')")
     List<Producto> search(@Bind("nombre") String nombre, @Bind("origen") String origen);
 
     @SqlUpdate("INSERT INTO productos (categoria_id, nombre, descripcion, precio, origen, imagen_url, stock_disponible) VALUES (:categoriaId, :nombre, :descripcion, :precio, :origen, :imagenUrl, :stockDisponible)")
