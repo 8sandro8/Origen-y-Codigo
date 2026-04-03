@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   app:
+    image: origencodigo-app:v2
     build:
       context: .
       dockerfile: Dockerfile
