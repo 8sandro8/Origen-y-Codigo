@@ -15,9 +15,11 @@
     <div class="container mt-4">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="mb-0">Productos</h2>
-            <a href="${pageContext.request.contextPath}/add-producto" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Nuevo Producto
-            </a>
+            <c:if test="${sessionScope.usuario != null && sessionScope.usuario.esAdmin}">
+                <a href="${pageContext.request.contextPath}/add-producto" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i> Nuevo Producto
+                </a>
+            </c:if>
         </div>
 
         <div class="card mb-4">
@@ -76,9 +78,11 @@
                                     <a href="${pageContext.request.contextPath}/view-producto?id=${producto.id}" class="btn btn-sm btn-info text-white">
                                         <i class="bi bi-eye"></i>
                                     </a>
-                                    <a href="${pageContext.request.contextPath}/delete-producto?id=${producto.id}" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar producto?')">
-                                        <i class="bi bi-trash"></i>
-                                    </a>
+                                    <c:if test="${sessionScope.usuario != null && sessionScope.usuario.esAdmin}">
+                                        <a href="${pageContext.request.contextPath}/delete-producto?id=${producto.id}" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar producto?')">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
+                                    </c:if>
                                 </td>
                             </tr>
                         </c:forEach>

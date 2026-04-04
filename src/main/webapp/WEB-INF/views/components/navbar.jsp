@@ -23,6 +23,7 @@
                             </ul>
                         </li>
                     </c:if>
+                    <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/profile"><i class="bi bi-person"></i> Mi Perfil</a></li>
                     <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/list-pedidos"><i class="bi bi-bag"></i> Mis Pedidos</a></li>
                     <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/logout"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
                 </c:if>
