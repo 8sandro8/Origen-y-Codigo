@@ -15,6 +15,12 @@ public interface ProductoDao extends SqlObject {
     @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos")
     List<Producto> getAll();
 
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos ORDER BY id LIMIT :limit OFFSET :offset")
+    List<Producto> getAllPaginated(@Bind("limit") int limit, @Bind("offset") int offset);
+
+    @SqlQuery("SELECT COUNT(*) FROM productos")
+    int getTotalCount();
+
     @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE id = :id")
     Producto getById(@Bind("id") int id);
 

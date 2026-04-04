@@ -98,6 +98,56 @@
                 </table>
             </div>
         </div>
+
+        <!-- Paginación -->
+        <c:if test="${totalPaginas > 1}">
+            <nav aria-label="Paginación de productos" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <!-- Anterior -->
+                    <c:choose>
+                        <c:when test="${paginaActual > 1}">
+                            <li class="page-item">
+                                <a class="page-link" href="?page=${paginaActual - 1}">Anterior</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item disabled">
+                                <span class="page-link">Anterior</span>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <!-- Números de página -->
+                    <c:forEach begin="1" end="${totalPaginas}" var="i">
+                        <c:choose>
+                            <c:when test="${i == paginaActual}">
+                                <li class="page-item active"><span class="page-link">${i}</span></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item"><a class="page-link" href="?page=${i}">${i}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+
+                    <!-- Siguiente -->
+                    <c:choose>
+                        <c:when test="${paginaActual < totalPaginas}">
+                            <li class="page-item">
+                                <a class="page-link" href="?page=${paginaActual + 1}">Siguiente</a>
+                            </li>
+                        </c:when>
+                        <c:otherwise>
+                            <li class="page-item disabled">
+                                <span class="page-link">Siguiente</span>
+                            </li>
+                        </c:otherwise>
+                    </c:choose>
+                </ul>
+            </nav>
+            <div class="text-center text-muted mb-4">
+                Mostrando ${productos.size()} de ${totalProductos} productos - Página ${paginaActual} de ${totalPaginas}
+            </div>
+        </c:if>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
