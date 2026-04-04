@@ -1,7 +1,7 @@
 # ============================================
 # ETAPA 1: Build con Maven
 # ============================================
-FROM maven:3.9-eclipse-temurin-17 AS builder
+FROM maven:3.9-eclipse-temurin-21 AS builder
 
 WORKDIR /build
 
@@ -14,7 +14,7 @@ RUN mvn clean package -DskipTests
 # ============================================
 # ETAPA 2: Runtime con Tomcat
 # ============================================
-FROM tomcat:10-jdk17
+FROM tomcat:10.1-jdk21
 
 # Copiar el driver MariaDB al classpath global de Tomcat
 # Esto resuelve el bug "No suitable driver found for jdbc:mariadb"
