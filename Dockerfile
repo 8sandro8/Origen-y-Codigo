@@ -16,6 +16,10 @@ RUN mvn clean package -DskipTests
 # ============================================
 FROM tomcat:10-jdk17
 
+# Copiar el driver MariaDB al classpath global de Tomcat
+# Esto resuelve el bug "No suitable driver found for jdbc:mariadb"
+COPY --from=builder /root/.m2/repository/org/mariadb/jdbc/mariadb-java-client/3.4.1/mariadb-java-client-3.4.1.jar $CATALINA_HOME/lib/
+
 COPY --from=builder /build/target/ROOT.war $CATALINA_HOME/webapps/ROOT.war
 
 EXPOSE 8080
