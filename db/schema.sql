@@ -49,3 +49,15 @@ CREATE TABLE IF NOT EXISTS pedidos (
     estado VARCHAR(50) NOT NULL,
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Tabla: Items Pedido
+-- Almacena los productos incluidos en cada pedido
+CREATE TABLE IF NOT EXISTS items_pedido (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    pedido_id INT NOT NULL,
+    producto_id INT NOT NULL,
+    cantidad INT NOT NULL,
+    precio_unitario DECIMAL(10,2) NOT NULL,
+    FOREIGN KEY (pedido_id) REFERENCES pedidos(id) ON DELETE CASCADE,
+    FOREIGN KEY (producto_id) REFERENCES productos(id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

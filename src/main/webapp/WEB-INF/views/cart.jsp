@@ -65,9 +65,11 @@
                     <a href="${pageContext.request.contextPath}/" class="btn btn-outline-secondary">
                         <i class="bi bi-arrow-left"></i> Seguir Comprando
                     </a>
-                    <button class="btn btn-success ms-2">
-                        <i class="bi bi-credit-card"></i> Finalizar Compra
-                    </button>
+                    <form action="${pageContext.request.contextPath}/checkout" method="POST" class="d-inline ms-2">
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-credit-card"></i> Finalizar Compra
+                        </button>
+                    </form>
                 </div>
             </c:otherwise>
         </c:choose>

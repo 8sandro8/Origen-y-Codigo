@@ -12,6 +12,9 @@
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/"><i class="bi bi-house-door"></i> Inicio</a></li>
                 <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/list-productos"><i class="bi bi-grid-3x3-gap"></i> Catálogo</a></li>
+                <c:if test="${sessionScope.usuario != null}">
+                    <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/list-pedidos"><i class="bi bi-bag"></i> Mis Pedidos</a></li>
+                </c:if>
                 <li class="nav-item ms-3">
                     <a class="nav-link fs-5 position-relative" href="${pageContext.request.contextPath}/cart">
                         <i class="bi bi-cart"></i>
