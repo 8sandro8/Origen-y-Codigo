@@ -100,9 +100,12 @@
                                 <a href="${pageContext.request.contextPath}/edit-producto?id=${producto.id}" class="btn btn-warning">
                                     <i class="bi bi-pencil"></i> Editar
                                 </a>
-                                <a href="${pageContext.request.contextPath}/delete-producto?id=${producto.id}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este producto?')">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </a>
+                                <form method="POST" action="${pageContext.request.contextPath}/delete-producto" style="display:inline;">
+                                    <input type="hidden" name="id" value="${producto.id}">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás totally seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer.');">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

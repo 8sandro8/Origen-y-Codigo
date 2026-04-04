@@ -101,9 +101,12 @@
                             <a href="${pageContext.request.contextPath}/list-pedidos?usuarioId=${usuario.id}" class="btn btn-outline-primary">
                                 <i class="bi bi-bag"></i> Ver pedidos de este usuario
                             </a>
-                            <button class="btn btn-outline-danger" onclick="confirmarEliminar(${usuario.id})">
-                                <i class="bi bi-trash"></i> Eliminar usuario
-                            </button>
+                            <form method="POST" action="${pageContext.request.contextPath}/delete-usuario" style="display:inline;">
+                                <input type="hidden" name="id" value="${usuario.id}">
+                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('¿Estás totally seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer.');">
+                                    <i class="bi bi-trash"></i> Eliminar usuario
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -112,12 +115,5 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function confirmarEliminar(id) {
-            if (confirm('¿Estás seguro de eliminar este usuario? Esta acción no se puede deshacer.')) {
-                window.location.href = '${pageContext.request.contextPath}/delete-usuario?id=' + id;
-            }
-        }
-    </script>
 </body>
 </html>
