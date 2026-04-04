@@ -60,20 +60,18 @@
                 </div>
             </div>
 
-            <!-- Contenedor de productos (Live Search) -->
-            <div id="productos-grid" class="row g-4" style="display: flex; flex-wrap: wrap;">
+            <!-- Contenedor de productos -->
+            <div class="row g-4" id="productos-grid">
                 <c:forEach var="producto" items="${productos}">
-                    <div class="col-12 col-md-6 col-lg-4 mb-4" style="flex: 0 0 33.333%; max-width: 33.333%;">
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="card h-100 shadow-sm">
-                            <a href="${pageContext.request.contextPath}/detalle-producto?id=${producto.id}" class="text-decoration-none">
+                            <a href="${pageContext.request.contextPath}/detalle-producto?id=${producto.id}" class="text-decoration-none d-block h-100">
                                 <c:choose>
                                     <c:when test="${not empty producto.imagenUrl}">
-                                        <img src="${pageContext.request.contextPath}/uploads/${producto.imagenUrl}" class="card-img-top img-fluid"
-                                            alt="${producto.nombre}" style="height: 200px; object-fit: cover;">
+                                        <img src="${pageContext.request.contextPath}/uploads/${producto.imagenUrl}" class="card-img-top" alt="${producto.nombre}" style="height: 200px; width: 100%; object-fit: cover;">
                                     </c:when>
                                     <c:otherwise>
-                                        <div class="d-flex align-items-center justify-content-center bg-secondary"
-                                            style="height: 200px;">
+                                        <div class="d-flex align-items-center justify-content-center bg-secondary" style="height: 200px;">
                                             <i class="bi bi-cup-hot fs-1 text-white"></i>
                                         </div>
                                     </c:otherwise>
@@ -82,27 +80,24 @@
                                     <h5 class="card-title mb-2 text-dark">${producto.nombre}</h5>
                                     <p class="card-text small text-muted mb-3">${producto.descripcion}</p>
                                     <div class="d-flex justify-content-between align-items-center mb-3">
-                                        <span class="badge bg-secondary"><i class="bi bi-geo-alt-fill"></i>
-                                            ${producto.origen}</span>
-                                        <span class="badge price-tag fs-6">
-                                            <fmt:formatNumber value="${producto.precio}" minFractionDigits="2"
-                                                maxFractionDigits="2" /> €
-                                        </span>
+                                        <span class="badge bg-secondary"><i class="bi bi-geo-alt-fill"></i> ${producto.origen}</span>
+                                        <span class="badge price-tag fs-6"><fmt:formatNumber value="${producto.precio}" minFractionDigits="2" maxFractionDigits="2" /> €</span>
                                     </div>
+                                </div>
                             </a>
-                            <c:choose>
-                                <c:when test="${producto.stockDisponible}">
-                                    <form action="${pageContext.request.contextPath}/add-to-cart" method="post">
-                                        <input type="hidden" name="id" value="${producto.id}">
-                                        <button type="submit" class="btn btn-warning w-100 fw-bold"><i
-                                                class="bi bi-cart-plus me-2"></i>Añadir</button>
-                                    </form>
-                                </c:when>
-                                <c:otherwise>
-                                    <button class="btn btn-secondary w-100 fw-bold" disabled><i
-                                            class="bi bi-x-circle me-2"></i>Sin stock</button>
-                                </c:otherwise>
-                            </c:choose>
+                            <div class="card-footer bg-white border-top-0">
+                                <c:choose>
+                                    <c:when test="${producto.stockDisponible}">
+                                        <form action="${pageContext.request.contextPath}/add-to-cart" method="post">
+                                            <input type="hidden" name="id" value="${producto.id}">
+                                            <button type="submit" class="btn btn-warning w-100 fw-bold"><i class="bi bi-cart-plus me-2"></i>Añadir</button>
+                                        </form>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button class="btn btn-secondary w-100 fw-bold" disabled><i class="bi bi-x-circle me-2"></i>Sin stock</button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
                         </div>
                     </div>
                 </c:forEach>
@@ -141,17 +136,14 @@
                 
                 // Solo buscar si hay algo en los campos
                 if (!nombre && !origen) {
-                    // Si está vacío, recargar la página sin parámetros
                     window.location.href = '${pageContext.request.contextPath}/';
                     return;
                 }
                 
-                // Construir URL con parámetros
                 let url = '${pageContext.request.contextPath}/search-productos?ajax=true';
                 if (nombre) url += '&nombre=' + encodeURIComponent(nombre);
                 if (origen) url += '&origen=' + encodeURIComponent(origen);
                 
-                // Fetch AJAX
                 fetch(url)
                     .then(response => response.text())
                     .then(html => {
@@ -160,7 +152,7 @@
                     .catch(error => {
                         console.error('Error en la búsqueda:', error);
                     });
-            }, 300); // 300ms debounce
+            }, 300);
         }
     </script>
 </body>
