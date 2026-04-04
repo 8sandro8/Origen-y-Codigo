@@ -16,10 +16,6 @@
                     .price-tag {
                         background: linear-gradient(135deg, #D2691E, #8B4513);
                     }
-
-                    .navbar-custom {
-                        height: 100px;
-                    }
                 </style>
             </head>
 

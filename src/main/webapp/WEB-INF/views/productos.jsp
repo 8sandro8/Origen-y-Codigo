@@ -79,6 +79,9 @@
                                         <i class="bi bi-eye"></i>
                                     </a>
                                     <c:if test="${sessionScope.usuario != null && sessionScope.usuario.esAdmin}">
+                                        <a href="${pageContext.request.contextPath}/edit-producto?id=${producto.id}" class="btn btn-sm btn-warning" title="Editar">
+                                            <i class="bi bi-pencil"></i>
+                                        </a>
                                         <a href="${pageContext.request.contextPath}/delete-producto?id=${producto.id}" class="btn btn-sm btn-danger" onclick="return confirm('¿Eliminar producto?')">
                                             <i class="bi bi-trash"></i>
                                         </a>

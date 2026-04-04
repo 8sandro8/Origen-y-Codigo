@@ -1,15 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-custom">
-    <div class="container position-relative h-100 d-flex align-items-center" style="padding-left: 160px;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <!-- Logo a la izquierda -->
+        <a class="navbar-brand me-0 me-lg-4" href="${pageContext.request.contextPath}/">
+            <img src="${pageContext.request.contextPath}/images/logo-transparente.png" 
+                 alt="Origen y Código" 
+                 style="max-height: 60px; width: auto;">
+        </a>
+        
+        <!-- Botón toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="position-absolute top-50 start-50 translate-middle" href="${pageContext.request.contextPath}/" style="z-index: 10;">
-            <img src="${pageContext.request.contextPath}/images/logo-transparente.png" alt="Origen y Código" style="max-height: 70px; object-fit: contain; margin-left: 80px;">
-        </a>
-        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul class="navbar-nav">
+        
+        <!-- Menú a la derecha - nunca se superpone con el logo -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/"><i class="bi bi-house-door"></i> Inicio</a></li>
                 <c:if test="${sessionScope.usuario != null && sessionScope.usuario.esAdmin}">
                     <li class="nav-item ms-3 dropdown">
