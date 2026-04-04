@@ -39,6 +39,29 @@
             </a>
         </div>
 
+        <!-- Buscador con 2 criterios -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form action="${pageContext.request.contextPath}/search-categorias" method="get" class="row g-3">
+                    <div class="col-md-5">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" 
+                               placeholder="Buscar por nombre..." value="${busquedaNombre}">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="descripcion" class="form-label">Descripción</label>
+                        <input type="text" class="form-control" id="descripcion" name="descripcion" 
+                               placeholder="Buscar por descripción..." value="${busquedaDescripcion}">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-search"></i> Buscar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="card shadow-sm">
             <div class="card-body p-0">
                 <table class="table table-hover mb-0">
@@ -47,6 +70,7 @@
                             <th>ID</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,11 +79,17 @@
                                 <td>${categoria.id}</td>
                                 <td><strong>${categoria.nombre}</strong></td>
                                 <td>${categoria.descripcion}</td>
+                                <td>
+                                    <a href="${pageContext.request.contextPath}/view-categoria?id=${categoria.id}" 
+                                       class="btn btn-sm btn-info text-white" title="Ver detalle">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                </td>
                             </tr>
                         </c:forEach>
                         <c:if test="${empty categorias}">
                             <tr>
-                                <td colspan="3" class="text-center text-muted py-4">
+                                <td colspan="4" class="text-center text-muted py-4">
                                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                                     No hay categorías disponibles
                                 </td>
