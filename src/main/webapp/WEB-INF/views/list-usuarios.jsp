@@ -39,6 +39,29 @@
             </a>
         </div>
 
+        <!-- Buscador con 2 criterios -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <form action="${pageContext.request.contextPath}/search-usuarios" method="get" class="row g-3">
+                    <div class="col-md-5">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" 
+                               placeholder="Buscar por nombre..." value="${busquedaNombre}">
+                    </div>
+                    <div class="col-md-5">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="email" name="email" 
+                               placeholder="Buscar por email..." value="${busquedaEmail}">
+                    </div>
+                    <div class="col-md-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-outline-primary w-100">
+                            <i class="bi bi-search"></i> Buscar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="card shadow-sm">
             <div class="card-body p-0">
                 <table class="table table-hover mb-0">
@@ -48,7 +71,8 @@
                             <th>Nombre</th>
                             <th>Email</th>
                             <th>Fecha Registro</th>
-                            <th>Es Admin</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -61,18 +85,24 @@
                                 <td>
                                     <c:choose>
                                         <c:when test="${usuario.esAdmin}">
-                                            <span class="badge bg-success">Sí</span>
+                                            <span class="badge bg-danger">Admin</span>
                                         </c:when>
                                         <c:otherwise>
-                                            <span class="badge bg-secondary">No</span>
+                                            <span class="badge bg-secondary">Usuario</span>
                                         </c:otherwise>
                                     </c:choose>
+                                </td>
+                                <td>
+                                    <a href="${pageContext.request.contextPath}/view-usuario?id=${usuario.id}" 
+                                       class="btn btn-sm btn-info text-white" title="Ver detalle">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
                                 </td>
                             </tr>
                         </c:forEach>
                         <c:if test="${empty usuarios}">
                             <tr>
-                                <td colspan="5" class="text-center text-muted py-4">
+                                <td colspan="6" class="text-center text-muted py-4">
                                     <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                                     No hay usuarios disponibles
                                 </td>

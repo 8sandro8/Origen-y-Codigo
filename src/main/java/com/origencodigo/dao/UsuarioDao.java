@@ -41,4 +41,7 @@ public interface UsuarioDao extends SqlObject {
 
     @SqlUpdate("DELETE FROM usuarios WHERE id = :id")
     int delete(@Bind("id") int id);
+
+    @SqlQuery("SELECT * FROM usuarios WHERE nombre LIKE CONCAT('%', :nombre, '%') AND email LIKE CONCAT('%', :email, '%')")
+    List<Usuario> search(@Bind("nombre") String nombre, @Bind("email") String email);
 }
