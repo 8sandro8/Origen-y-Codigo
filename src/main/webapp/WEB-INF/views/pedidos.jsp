@@ -82,9 +82,9 @@
                                         </c:choose>
                                     </td>
                                     <td>
-                                        <button class="btn btn-sm btn-outline-primary" title="Ver detalles">
+                                        <a href="${pageContext.request.contextPath}/detalle-pedido?id=${pedido.id}" class="btn btn-sm btn-outline-primary" title="Ver detalles">
                                             <i class="bi bi-eye"></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                             </c:forEach>
