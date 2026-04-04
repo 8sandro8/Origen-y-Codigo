@@ -10,7 +10,6 @@ import com.origencodigo.model.ItemCarrito;
 import java.io.IOException;
 import java.util.List;
 import java.math.BigDecimal;
-import com.fasterxml.jackson.databind.ObjectMapper;
 
 @WebServlet("/remove-from-cart")
 public class RemoveFromCartServlet extends HttpServlet {
@@ -68,14 +67,6 @@ public class RemoveFromCartServlet extends HttpServlet {
             session.setAttribute("carrito", carrito);
             
             // Devolver JSON
-            ObjectMapper mapper = new ObjectMapper();
-            String json = mapper.writeValueAsString(new Object[]{
-                new Object() {
-                    public int getTotalItems() { return nuevoTotalItems; }
-                    public String getTotal() { return nuevoTotal.setScale(2).toString(); }
-                }
-            });
-            
             response.getWriter().write("{\"success\": true, \"totalItems\": " + nuevoTotalItems + ", \"total\": \"" + nuevoTotal.setScale(2) + "\"}");
             
         } catch (NumberFormatException e) {
