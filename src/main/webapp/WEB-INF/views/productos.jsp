@@ -44,6 +44,7 @@
 
         <div class="card shadow-sm">
             <div class="card-body p-0">
+                <div class="table-responsive">
                 <table class="table table-hover mb-0">
                     <thead class="table-light">
                         <tr>
@@ -99,6 +100,7 @@
                         </c:if>
                     </tbody>
                 </table>
+                </div>
             </div>
         </div>
 
