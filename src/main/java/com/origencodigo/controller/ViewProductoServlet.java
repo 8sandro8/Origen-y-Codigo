@@ -9,8 +9,9 @@ import com.origencodigo.dao.Database;
 import com.origencodigo.dao.ProductoDao;
 import com.origencodigo.model.Producto;
 import java.io.IOException;
+import java.util.List;
 
-@WebServlet("/view-producto")
+@WebServlet("/detalle-producto")
 public class ViewProductoServlet extends HttpServlet {
 
     @Override
@@ -20,7 +21,7 @@ public class ViewProductoServlet extends HttpServlet {
         String idParam = request.getParameter("id");
         
         if (idParam == null || idParam.isEmpty()) {
-            response.sendRedirect(request.getContextPath() + "/list-productos");
+            response.sendRedirect(request.getContextPath() + "/");
             return;
         }
         
@@ -30,15 +31,19 @@ public class ViewProductoServlet extends HttpServlet {
             Producto producto = productoDao.getById(id);
             
             if (producto == null) {
-                response.sendRedirect(request.getContextPath() + "/list-productos");
+                response.sendRedirect(request.getContextPath() + "/");
                 return;
             }
             
+            // Obtener productos recomendados de la misma categoría (excluyendo el actual)
+            List<Producto> recomendados = productoDao.getRecomendados(producto.getCategoriaId(), id, 4);
+            
             request.setAttribute("producto", producto);
-            request.getRequestDispatcher("/WEB-INF/views/view-producto.jsp").forward(request, response);
+            request.setAttribute("recomendados", recomendados);
+            request.getRequestDispatcher("/WEB-INF/views/detalle-producto.jsp").forward(request, response);
             
         } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/list-productos");
+            response.sendRedirect(request.getContextPath() + "/");
         }
     }
 }

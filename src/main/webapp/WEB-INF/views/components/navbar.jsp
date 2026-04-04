@@ -11,18 +11,20 @@
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
                 <li class="nav-item"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/"><i class="bi bi-house-door"></i> Inicio</a></li>
-                <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/list-productos"><i class="bi bi-grid-3x3-gap"></i> Catálogo</a></li>
-                <c:if test="${sessionScope.usuario != null}">
-                    <c:if test="${sessionScope.usuario.esAdmin}">
-                        <li class="nav-item ms-3 dropdown">
-                            <a class="nav-link fs-5 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="bi bi-gear"></i> Admin</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/list-productos">Productos</a></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/list-categorias">Categorías</a></li>
-                                <li><a class="dropdown-item" href="${pageContext.request.contextPath}/list-usuarios">Usuarios</a></li>
-                            </ul>
-                        </li>
-                    </c:if>
+                <c:if test="${sessionScope.usuario != null && sessionScope.usuario.esAdmin}">
+                    <li class="nav-item ms-3 dropdown">
+                        <a class="nav-link fs-5 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="bi bi-gear"></i> Admin</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/list-productos">Gestión Productos</a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/list-categorias">Categorías</a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/list-usuarios">Usuarios</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/profile"><i class="bi bi-person"></i> Mi Perfil</a></li>
+                    <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/list-pedidos"><i class="bi bi-bag"></i> Mis Pedidos</a></li>
+                    <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/logout"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
+                </c:if>
+                <c:if test="${sessionScope.usuario != null && !sessionScope.usuario.esAdmin}">
                     <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/profile"><i class="bi bi-person"></i> Mi Perfil</a></li>
                     <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/list-pedidos"><i class="bi bi-bag"></i> Mis Pedidos</a></li>
                     <li class="nav-item ms-3"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/logout"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>

@@ -47,43 +47,45 @@
                             <c:forEach var="producto" items="${productos}">
                                 <div class="col-md-6 col-lg-3">
                                     <div class="card h-100 shadow-sm">
-                                        <c:choose>
-                                            <c:when test="${not empty producto.imagenUrl}">
-                                                <img src="${producto.imagenUrl}" class="card-img-top"
-                                                    alt="${producto.nombre}" style="height: 180px; object-fit: cover;">
-                                            </c:when>
-                                            <c:otherwise>
-                                                <div class="d-flex align-items-center justify-content-center bg-secondary"
-                                                    style="height: 180px;">
-                                                    <i class="bi bi-cup-hot fs-1 text-white"></i>
-                                                </div>
-                                            </c:otherwise>
-                                        </c:choose>
-                                        <div class="card-body">
-                                            <h5 class="card-title mb-2">${producto.nombre}</h5>
-                                            <p class="card-text small text-muted mb-3">${producto.descripcion}</p>
-                                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                                <span class="badge bg-secondary"><i class="bi bi-geo-alt-fill"></i>
-                                                    ${producto.origen}</span>
-                                                <span class="badge price-tag fs-6">
-                                                    <fmt:formatNumber value="${producto.precio}" minFractionDigits="2"
-                                                        maxFractionDigits="2" /> €
-                                                </span>
-                                            </div>
+                                        <a href="${pageContext.request.contextPath}/detalle-producto?id=${producto.id}" class="text-decoration-none">
                                             <c:choose>
-                                                <c:when test="${producto.stockDisponible}">
-                                                    <form action="${pageContext.request.contextPath}/add-to-cart" method="post">
-                                                        <input type="hidden" name="id" value="${producto.id}">
-                                                        <button type="submit" class="btn btn-warning w-100 fw-bold"><i
-                                                                class="bi bi-cart-plus me-2"></i>Añadir</button>
-                                                    </form>
+                                                <c:when test="${not empty producto.imagenUrl}">
+                                                    <img src="${producto.imagenUrl}" class="card-img-top"
+                                                        alt="${producto.nombre}" style="height: 180px; object-fit: cover;">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <button class="btn btn-secondary w-100 fw-bold" disabled><i
-                                                            class="bi bi-x-circle me-2"></i>Sin stock</button>
+                                                    <div class="d-flex align-items-center justify-content-center bg-secondary"
+                                                        style="height: 180px;">
+                                                        <i class="bi bi-cup-hot fs-1 text-white"></i>
+                                                    </div>
                                                 </c:otherwise>
                                             </c:choose>
-                                        </div>
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-2 text-dark">${producto.nombre}</h5>
+                                                <p class="card-text small text-muted mb-3">${producto.descripcion}</p>
+                                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                                    <span class="badge bg-secondary"><i class="bi bi-geo-alt-fill"></i>
+                                                        ${producto.origen}</span>
+                                                    <span class="badge price-tag fs-6">
+                                                        <fmt:formatNumber value="${producto.precio}" minFractionDigits="2"
+                                                            maxFractionDigits="2" /> €
+                                                    </span>
+                                                </div>
+                                        </a>
+                                                <c:choose>
+                                                    <c:when test="${producto.stockDisponible}">
+                                                        <form action="${pageContext.request.contextPath}/add-to-cart" method="post">
+                                                            <input type="hidden" name="id" value="${producto.id}">
+                                                            <button type="submit" class="btn btn-warning w-100 fw-bold"><i
+                                                                    class="bi bi-cart-plus me-2"></i>Añadir</button>
+                                                        </form>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <button class="btn btn-secondary w-100 fw-bold" disabled><i
+                                                                class="bi bi-x-circle me-2"></i>Sin stock</button>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </div>
                                     </div>
                                 </div>
                             </c:forEach>
