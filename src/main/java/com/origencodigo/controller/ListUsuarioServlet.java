@@ -5,6 +5,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import com.origencodigo.dao.Database;
 import com.origencodigo.dao.UsuarioDao;
 import com.origencodigo.model.Usuario;
@@ -17,6 +18,15 @@ public class ListUsuarioServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        // Solo admin puede ver la lista de usuarios
+        if (usuario == null || !usuario.isEsAdmin()) {
+            response.sendRedirect(request.getContextPath() + "/");
+            return;
+        }
         
         UsuarioDao usuarioDao = Database.connect().onDemand(UsuarioDao.class);
         List<Usuario> usuarios = usuarioDao.getAll();
