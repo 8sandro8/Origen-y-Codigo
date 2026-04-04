@@ -41,14 +41,16 @@ public class SearchProductosServlet extends HttpServlet {
                 out.print("</div>");
             } else {
                 for (Producto p : productos) {
-                    out.print("<div class=\"col-md-6 col-lg-3\">");
+                    // Estructura correcta: col-12 col-md-6 col-lg-4 (3 columnas)
+                    out.print("<div class=\"col-12 col-md-6 col-lg-4 mb-4\">");
                     out.print("<div class=\"card h-100 shadow-sm\">");
                     out.print("<a href=\"" + request.getContextPath() + "/detalle-producto?id=" + p.getId() + "\" class=\"text-decoration-none\">");
                     
+                    // Imagen con img-fluid y object-fit cover
                     if (p.getImagenUrl() != null && !p.getImagenUrl().isEmpty()) {
-                        out.print("<img src=\"" + request.getContextPath() + "/uploads/" + p.getImagenUrl() + "\" class=\"card-img-top\" alt=\"" + p.getNombre() + "\" style=\"height: 180px; object-fit: cover;\">");
+                        out.print("<img src=\"" + request.getContextPath() + "/uploads/" + p.getImagenUrl() + "\" class=\"card-img-top img-fluid\" alt=\"" + p.getNombre() + "\" style=\"height: 200px; object-fit: cover;\">");
                     } else {
-                        out.print("<div class=\"d-flex align-items-center justify-content-center bg-secondary\" style=\"height: 180px;\">");
+                        out.print("<div class=\"d-flex align-items-center justify-content-center bg-secondary\" style=\"height: 200px;\">");
                         out.print("<i class=\"bi bi-cup-hot fs-1 text-white\"></i>");
                         out.print("</div>");
                     }
@@ -62,6 +64,7 @@ public class SearchProductosServlet extends HttpServlet {
                     out.print("</div>");
                     out.print("</a>");
                     
+                    // Botón añadir al carrito
                     if (p.isStockDisponible()) {
                         out.print("<form action=\"" + request.getContextPath() + "/add-to-cart\" method=\"post\">");
                         out.print("<input type=\"hidden\" name=\"id\" value=\"" + p.getId() + "\">");
@@ -79,7 +82,7 @@ public class SearchProductosServlet extends HttpServlet {
             return;
         }
         
-        // Si no es AJAX, comportamiento normal (redireccionar a productos.jsp)
+        // Si no es AJAX, comportamiento normal
         request.setAttribute("productos", productos);
         request.setAttribute("searchNombre", nombre);
         request.setAttribute("searchOrigen", origen);

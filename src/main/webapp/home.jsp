@@ -63,17 +63,17 @@
             <!-- Contenedor de productos (Live Search) -->
             <div id="productos-grid" class="row g-4">
                 <c:forEach var="producto" items="${productos}">
-                    <div class="col-md-6 col-lg-3">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4">
                         <div class="card h-100 shadow-sm">
                             <a href="${pageContext.request.contextPath}/detalle-producto?id=${producto.id}" class="text-decoration-none">
                                 <c:choose>
                                     <c:when test="${not empty producto.imagenUrl}">
-                                        <img src="${pageContext.request.contextPath}/uploads/${producto.imagenUrl}" class="card-img-top"
-                                            alt="${producto.nombre}" style="height: 180px; object-fit: cover;">
+                                        <img src="${pageContext.request.contextPath}/uploads/${producto.imagenUrl}" class="card-img-top img-fluid"
+                                            alt="${producto.nombre}" style="height: 200px; object-fit: cover;">
                                     </c:when>
                                     <c:otherwise>
                                         <div class="d-flex align-items-center justify-content-center bg-secondary"
-                                            style="height: 180px;">
+                                            style="height: 200px;">
                                             <i class="bi bi-cup-hot fs-1 text-white"></i>
                                         </div>
                                     </c:otherwise>
