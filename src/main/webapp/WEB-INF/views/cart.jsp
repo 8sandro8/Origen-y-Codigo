@@ -38,13 +38,18 @@
                                     <th>Subtotal</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="carrito-body">
                                 <c:forEach var="item" items="${sessionScope.carrito}">
-                                    <tr>
+                                    <tr id="producto-${item.producto.id}">
                                         <td><strong>${item.producto.nombre}</strong></td>
                                         <td><fmt:formatNumber value="${item.producto.precio}" minFractionDigits="2" /> €</td>
                                         <td>${item.cantidad}</td>
                                         <td><fmt:formatNumber value="${item.subtotal}" minFractionDigits="2" /> €</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-danger btn-eliminar" data-id="${item.producto.id}" title="Eliminar">
+                                                <i class="bi bi-trash"></i>
+                                            </button>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                 <tr class="table-secondary">
@@ -54,8 +59,9 @@
                                         <c:forEach var="item" items="${sessionScope.carrito}">
                                             <c:set var="total" value="${total + item.subtotal}" />
                                         </c:forEach>
-                                        <fmt:formatNumber value="${total}" minFractionDigits="2" /> €
+                                        <span id="carrito-total"><fmt:formatNumber value="${total}" minFractionDigits="2" /></span> €
                                     </strong></td>
+                                    <td></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -76,5 +82,59 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Script Ajax para eliminar productos del carrito
+        document.querySelectorAll('.btn-eliminar').forEach(boton => {
+            boton.addEventListener('click', function() {
+                const productoId = this.getAttribute('data-id');
+                const fila = document.getElementById('producto-' + productoId);
+                
+                if (confirm('¿Eliminar este producto del carrito?')) {
+                    fetch('${pageContext.request.contextPath}/remove-from-cart?id=' + productoId, {
+                        method: 'POST'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            // Eliminar la fila de la tabla
+                            fila.remove();
+                            // Actualizar el total
+                            document.getElementById('carrito-total').textContent = data.total;
+                            // Actualizar el badge del navbar
+                            fetch('${pageContext.request.contextPath}/cart-nav-items')
+                                .then(res => res.text())
+                                .then(html => {
+                                    const badge = document.querySelector('.badge');
+                                    if (data.totalItems === 0) {
+                                        if (badge) badge.remove();
+                                    } else {
+                                        if (badge) {
+                                            badge.textContent = data.totalItems;
+                                        } else {
+                                            const navLink = document.querySelector('a[href="${pageContext.request.contextPath}/cart"]');
+                                            const newBadge = document.createElement('span');
+                                            newBadge.className = 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger';
+                                            newBadge.textContent = data.totalItems;
+                                            navLink.appendChild(newBadge);
+                                        }
+                                    }
+                                });
+                            
+                            // Si el carrito queda vacío, recargar la página
+                            if (data.totalItems === 0) {
+                                location.reload();
+                            }
+                        } else {
+                            alert('Error: ' + data.error);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al eliminar el producto');
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
