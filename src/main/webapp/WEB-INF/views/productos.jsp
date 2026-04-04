@@ -75,7 +75,7 @@
                                     </c:choose>
                                 </td>
                                 <td>
-                                    <a href="${pageContext.request.contextPath}/view-producto?id=${producto.id}" class="btn btn-sm btn-info text-white">
+                                    <a href="${pageContext.request.contextPath}/detalle-producto?id=${producto.id}" class="btn btn-sm btn-info text-white">
                                         <i class="bi bi-eye"></i>
                                     </a>
                                     <c:if test="${sessionScope.usuario != null && sessionScope.usuario.esAdmin}">

@@ -30,6 +30,9 @@ public interface ProductoDao extends SqlObject {
     @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE nombre LIKE CONCAT('%', :nombre, '%') AND origen LIKE CONCAT('%', :origen, '%')")
     List<Producto> search(@Bind("nombre") String nombre, @Bind("origen") String origen);
 
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE categoria_id = :categoriaId AND id != :excludeId ORDER BY RAND() LIMIT :limit")
+    List<Producto> getRecomendados(@Bind("categoriaId") int categoriaId, @Bind("excludeId") int excludeId, @Bind("limit") int limit);
+
     @SqlUpdate("INSERT INTO productos (categoria_id, nombre, descripcion, precio, origen, imagen_url, stock_disponible) VALUES (:categoriaId, :nombre, :descripcion, :precio, :origen, :imagenUrl, :stockDisponible)")
     int add(@Bind("categoriaId") int categoriaId, @Bind("nombre") String nombre, @Bind("descripcion") String descripcion, @Bind("precio") BigDecimal precio, @Bind("origen") String origen, @Bind("imagenUrl") String imagenUrl, @Bind("stockDisponible") boolean stockDisponible);
 

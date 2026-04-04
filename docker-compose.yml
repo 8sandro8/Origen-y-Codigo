@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: origencodigo-app:v2
+    image: origencodigo-app:v3
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,6 +12,9 @@ services:
       - DB_URL=${DB_URL:-jdbc:mariadb://db:3306/origen_codigo}
       - DB_USER=${DB_USER:-root}
       - DB_PASSWORD=${DB_PASSWORD:-rootpassword}
+      - UPLOAD_DIR=/usr/local/tomcat/webapps/uploads
+    volumes:
+      - uploads_data:/usr/local/tomcat/webapps/uploads
     restart: unless-stopped
     depends_on:
       - db
@@ -32,3 +35,4 @@ services:
 
 volumes:
   mariadb_data:
+  uploads_data:

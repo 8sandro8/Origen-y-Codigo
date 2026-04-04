@@ -11,11 +11,13 @@ import com.origencodigo.dao.Database;
 import com.origencodigo.dao.ProductoDao;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
-import java.math.BigDecimal;
+import java.util.UUID;
+import net.coobird.thumbnailator.Thumbnails;
+import net.coobird.thumbnailator.geometry.Positions;
 
 @WebServlet("/add-producto")
 @MultipartConfig(
@@ -46,22 +48,46 @@ public class AddProductoServlet extends HttpServlet {
         Part imagenPart = request.getPart("imagen");
         
         if (imagenPart != null && imagenPart.getSize() > 0) {
-            String fileName = Paths.get(imagenPart.getSubmittedFileName()).getFileName().toString();
-            String uniqueFileName = System.currentTimeMillis() + "_" + fileName;
+            // Generar nombre único
+            String extension = getFileExtension(Paths.get(imagenPart.getSubmittedFileName()).getFileName().toString());
+            String uniqueFileName = UUID.randomUUID().toString() + "." + extension;
             
-            String uploadPath = getServletContext().getRealPath("/images");
-            Path uploadDir = Paths.get(uploadPath);
-            
-            if (!Files.exists(uploadDir)) {
-                Files.createDirectories(uploadDir);
+            // Obtener directorio de uploads desde variable de entorno o defecto
+            String uploadDir = System.getenv("UPLOAD_DIR");
+            if (uploadDir == null) {
+                String catalinaHome = System.getProperty("catalina.base", "/usr/local/tomcat");
+                uploadDir = catalinaHome + "/webapps/uploads";
             }
             
-            Path filePath = uploadDir.resolve(uniqueFileName);
+            Path uploadsPath = Paths.get(uploadDir);
+            
+            // Crear directorio si no existe
+            if (!Files.exists(uploadsPath)) {
+                Files.createDirectories(uploadsPath);
+            }
+            
+            // Comprimir y redimensionar imagen (800x800, 80% calidad)
+            Path tempFile = uploadsPath.resolve("temp_" + uniqueFileName);
+            Path outputFile = uploadsPath.resolve(uniqueFileName);
+            
             try (InputStream input = imagenPart.getInputStream()) {
-                Files.copy(input, filePath, StandardCopyOption.REPLACE_EXISTING);
+                Thumbnails.of(input)
+                    .size(800, 800)
+                    .outputFormat("jpg")
+                    .outputQuality(0.8)
+                    .toFile(tempFile.toFile());
+                
+                // Mover archivo definitivo
+                Files.move(tempFile, outputFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                // Si falla la compresión, guardar original
+                try (InputStream input = imagenPart.getInputStream()) {
+                    Files.copy(input, outputFile, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+                }
             }
             
-            imagenUrl = "/images/" + uniqueFileName;
+            // Guardar referencia en BBDD (ruta relativa al servlet de imágenes)
+            imagenUrl = uniqueFileName;
         }
         
         try {
@@ -77,5 +103,21 @@ public class AddProductoServlet extends HttpServlet {
             request.setAttribute("error", "Error al agregar producto: " + e.getMessage());
             request.getRequestDispatcher("/WEB-INF/views/add-producto.jsp").forward(request, response);
         }
+    }
+    
+    private String getFileExtension(String fileName) {
+        if (fileName == null || fileName.isEmpty()) {
+            return "jpg";
+        }
+        int lastDot = fileName.lastIndexOf('.');
+        if (lastDot == -1) {
+            return "jpg";
+        }
+        String ext = fileName.substring(lastDot + 1).toLowerCase();
+        // Asegurar formato válido
+        if (ext.equals("png") || ext.equals("jpg") || ext.equals("jpeg") || ext.equals("webp")) {
+            return ext;
+        }
+        return "jpg";
     }
 }
