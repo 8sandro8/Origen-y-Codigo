@@ -39,6 +39,27 @@
                             <p class="text-muted fs-5">Calidad premium de los mejores orígenes del mundo</p>
                         </div>
 
+                        <!-- Buscador con 2 criterios -->
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <form action="${pageContext.request.contextPath}/search-productos" method="get" class="row g-3">
+                                    <div class="col-md-5">
+                                        <label for="nombre" class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Buscar por nombre...">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <label for="origen" class="form-label">Origen</label>
+                                        <input type="text" class="form-control" id="origen" name="origen" placeholder="Buscar por origen...">
+                                    </div>
+                                    <div class="col-md-2 d-flex align-items-end">
+                                        <button type="submit" class="btn btn-outline-warning w-100">
+                                            <i class="bi bi-search"></i> Buscar
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
                         <div class="row g-4">
                             <c:forEach var="producto" items="${productos}">
                                 <div class="col-md-6 col-lg-3">

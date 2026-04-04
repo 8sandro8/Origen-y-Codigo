@@ -6,10 +6,12 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import com.origencodigo.dao.Database;
 import com.origencodigo.dao.ProductoDao;
 import com.origencodigo.model.Producto;
+import com.origencodigo.model.Usuario;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -30,6 +32,15 @@ public class EditProductoServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Verificar que es Admin
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        if (usuario == null || !usuario.isEsAdmin()) {
+            response.sendRedirect(request.getContextPath() + "/");
+            return;
+        }
         
         String idParam = request.getParameter("id");
         
@@ -59,6 +70,15 @@ public class EditProductoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Verificar que es Admin
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        if (usuario == null || !usuario.isEsAdmin()) {
+            response.sendRedirect(request.getContextPath() + "/");
+            return;
+        }
         
         String idParam = request.getParameter("id");
         String nombre = request.getParameter("nombre");

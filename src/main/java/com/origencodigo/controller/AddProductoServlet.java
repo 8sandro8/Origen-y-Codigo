@@ -6,9 +6,11 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import com.origencodigo.dao.Database;
 import com.origencodigo.dao.ProductoDao;
+import com.origencodigo.model.Usuario;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigDecimal;
@@ -17,7 +19,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 import net.coobird.thumbnailator.Thumbnails;
-import net.coobird.thumbnailator.geometry.Positions;
 
 @WebServlet("/add-producto")
 @MultipartConfig(
@@ -31,12 +32,30 @@ public class AddProductoServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // Verificar que es Admin
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        if (usuario == null || !usuario.isEsAdmin()) {
+            response.sendRedirect(request.getContextPath() + "/");
+            return;
+        }
+        
         request.getRequestDispatcher("/WEB-INF/views/add-producto.jsp").forward(request, response);
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Verificar que es Admin
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        if (usuario == null || !usuario.isEsAdmin()) {
+            response.sendRedirect(request.getContextPath() + "/");
+            return;
+        }
         
         String nombre = request.getParameter("nombre");
         String descripcion = request.getParameter("descripcion");

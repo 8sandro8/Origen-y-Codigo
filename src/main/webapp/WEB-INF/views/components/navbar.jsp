@@ -6,7 +6,7 @@
         <a class="navbar-brand" href="${pageContext.request.contextPath}/">
             <img src="${pageContext.request.contextPath}/images/logo-transparente.png" 
                  alt="Origen y Código" 
-                 style="max-height: 85px; width: auto;">
+                 style="height: 100px !important; width: auto !important;">
         </a>
         
         <!-- Botón toggler -->

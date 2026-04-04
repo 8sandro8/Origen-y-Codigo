@@ -5,8 +5,10 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import com.origencodigo.dao.Database;
 import com.origencodigo.dao.ProductoDao;
+import com.origencodigo.model.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import com.google.gson.Gson;
@@ -17,6 +19,17 @@ public class DeleteProductoServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        // Verificar que es Admin
+        HttpSession session = request.getSession();
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        
+        if (usuario == null || !usuario.isEsAdmin()) {
+            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            PrintWriter out = response.getWriter();
+            out.print(new Gson().toJson(new Response(false, "No autorizado")));
+            return;
+        }
         
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
