@@ -50,7 +50,7 @@
                                         <a href="${pageContext.request.contextPath}/detalle-producto?id=${producto.id}" class="text-decoration-none">
                                             <c:choose>
                                                 <c:when test="${not empty producto.imagenUrl}">
-                                                    <img src="${producto.imagenUrl}" class="card-img-top"
+                                                    <img src="${pageContext.request.contextPath}/uploads/${producto.imagenUrl}" class="card-img-top"
                                                         alt="${producto.nombre}" style="height: 180px; object-fit: cover;">
                                                 </c:when>
                                                 <c:otherwise>

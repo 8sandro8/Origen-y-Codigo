@@ -46,7 +46,7 @@
                         <div class="col-md-5">
                             <c:choose>
                                 <c:when test="${not empty producto.imagenUrl}">
-                                    <img src="${producto.imagenUrl}" alt="${producto.nombre}" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
+                                    <img src="${pageContext.request.contextPath}/uploads/${producto.imagenUrl}" alt="${producto.nombre}" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
                                 </c:when>
                                 <c:otherwise>
                                     <div class="bg-secondary d-flex align-items-center justify-content-center text-white rounded" style="height: 300px;">

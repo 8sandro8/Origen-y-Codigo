@@ -38,7 +38,7 @@
                     <div class="card-body d-flex align-items-center justify-content-center bg-white">
                         <c:choose>
                             <c:when test="${not empty producto.imagenUrl}">
-                                <img src="${producto.imagenUrl}" class="img-fluid product-image" alt="${producto.nombre}">
+                                <img src="${pageContext.request.contextPath}/uploads/${producto.imagenUrl}" class="img-fluid product-image" alt="${producto.nombre}">
                             </c:when>
                             <c:otherwise>
                                 <div class="text-center py-5">
@@ -120,10 +120,10 @@
                         <div class="col-md-6 col-lg-3">
                             <div class="card h-100 shadow-sm">
                                 <a href="${pageContext.request.contextPath}/detalle-producto?id=${recomendado.id}" class="text-decoration-none">
-                                    <c:choose>
-                                        <c:when test="${not empty recomendado.imagenUrl}">
-                                            <img src="${recomendado.imagenUrl}" class="card-img-top" alt="${recomendado.nombre}" style="height: 150px; object-fit: cover;">
-                                        </c:when>
+                                        <c:choose>
+                                            <c:when test="${not empty recomendado.imagenUrl}">
+                                                <img src="${pageContext.request.contextPath}/uploads/${recomendado.imagenUrl}" class="card-img-top" alt="${recomendado.nombre}" style="height: 150px; object-fit: cover;">
+                                            </c:when>
                                         <c:otherwise>
                                             <div class="d-flex align-items-center justify-content-center bg-secondary" style="height: 150px;">
                                                 <i class="bi bi-cup-hot fs-1 text-white"></i>
