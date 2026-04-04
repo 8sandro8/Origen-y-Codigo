@@ -6,7 +6,7 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
-import org.jdbi.v3.sqlobject.annotation.GetGeneratedKeys;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import java.util.List;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
