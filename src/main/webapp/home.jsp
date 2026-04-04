@@ -61,9 +61,9 @@
             </div>
 
             <!-- Contenedor de productos (Live Search) -->
-            <div id="productos-grid" class="row g-4">
+            <div id="productos-grid" class="row g-4" style="display: flex; flex-wrap: wrap;">
                 <c:forEach var="producto" items="${productos}">
-                    <div class="col-12 col-md-6 col-lg-4 mb-4">
+                    <div class="col-12 col-md-6 col-lg-4 mb-4" style="flex: 0 0 33.333%; max-width: 33.333%;">
                         <div class="card h-100 shadow-sm">
                             <a href="${pageContext.request.contextPath}/detalle-producto?id=${producto.id}" class="text-decoration-none">
                                 <c:choose>
