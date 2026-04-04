@@ -1,20 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3">
     <div class="container">
-        <!-- Logo centrado - décorativo sin enlace -->
-        <div class="navbar-brand mx-auto">
+        <!-- Logo grande a la izquierda -->
+        <a class="navbar-brand" href="${pageContext.request.contextPath}/">
             <img src="${pageContext.request.contextPath}/images/logo-transparente.png" 
                  alt="Origen y Código" 
-                 style="height: 80px; width: auto;">
-        </div>
+                 style="max-height: 85px; width: auto;">
+        </a>
         
-        <!-- Botón toggler a la derecha -->
+        <!-- Botón toggler -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
         
-        <!-- Menú colapsable -->
+        <!-- Menú a la derecha -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/"><i class="bi bi-house-door"></i> Inicio</a></li>
