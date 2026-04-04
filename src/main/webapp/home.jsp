@@ -4,31 +4,22 @@
 <%@ include file="/WEB-INF/views/components/navbar.jsp" %>
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Origen &amp; Código - Tienda de Café</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        .price-tag {
-            background: linear-gradient(135deg, #D2691E, #8B4513);
-        }
+        .price-tag { background: linear-gradient(135deg, #D2691E, #8B4513); }
     </style>
 </head>
-
 <body class="bg-light">
 
-    <div class="position-relative vh-100"
-        style="background-image: url('${pageContext.request.contextPath}/images/hero-bg.png'); background-size: cover; background-position: center; margin-top: -5px;">
-        <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0,0,0,0.6);">
-        </div>
-        <div class="container position-relative text-center d-flex align-items-end justify-content-center pb-5"
-            style="min-height: 100vh;">
-            <a href="#productos" class="btn btn-warning btn-lg px-5 py-3 fs-4 fw-bold shadow"><i
-                    class="bi bi-arrow-down-circle me-2"></i> Explorar Catálogo</a>
+    <div class="position-relative vh-100" style="background-image: url('${pageContext.request.contextPath}/images/hero-bg.png'); background-size: cover; background-position: center; margin-top: -5px;">
+        <div class="position-absolute top-0 start-0 w-100 h-100" style="background-color: rgba(0,0,0,0.6);"></div>
+        <div class="container position-relative text-center d-flex align-items-end justify-content-center pb-5" style="min-height: 100vh;">
+            <a href="#productos" class="btn btn-warning btn-lg px-5 py-3 fs-4 fw-bold shadow"><i class="bi bi-arrow-down-circle me-2"></i> Explorar Catálogo</a>
         </div>
     </div>
 
@@ -39,7 +30,7 @@
                 <p class="text-muted fs-5">Calidad premium de los mejores orígenes del mundo</p>
             </div>
 
-            <!-- Buscador con 2 criterios (Live Search) -->
+            <!-- Buscador -->
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="row g-3">
@@ -52,15 +43,13 @@
                             <input type="text" class="form-control" id="buscar-origen" placeholder="Buscar por origen..." oninput="buscarProductos()">
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
-                            <button type="button" class="btn btn-outline-warning w-100" onclick="buscarProductos()">
-                                <i class="bi bi-search"></i> Buscar
-                            </button>
+                            <button type="button" class="btn btn-outline-warning w-100" onclick="buscarProductos()"><i class="bi bi-search"></i> Buscar</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Contenedor de productos -->
+            <!-- Grid productos -->
             <div class="row g-4" id="productos-grid">
                 <c:forEach var="producto" items="${productos}">
                     <div class="col-12 col-md-6 col-lg-4">
@@ -115,8 +104,7 @@
     <footer class="bg-dark py-4">
         <div class="container text-center">
             <p class="mb-0 text-muted">
-                <img src="${pageContext.request.contextPath}/images/logo-transparente.png" alt="Logo"
-                    style="height: 25px; margin-right: 5px; opacity: 0.5;">
+                <img src="${pageContext.request.contextPath}/images/logo-transparente.png" alt="Logo" style="height: 25px; margin-right: 5px; opacity: 0.5;">
                 <span class="text-warning">Origen &amp; Código</span> &copy; 2026
             </p>
         </div>
@@ -124,37 +112,25 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Live Search Script -->
     <script>
         let debounceTimer;
-        
         function buscarProductos() {
             clearTimeout(debounceTimer);
             debounceTimer = setTimeout(() => {
                 const nombre = document.getElementById('buscar-nombre').value;
                 const origen = document.getElementById('buscar-origen').value;
-                
-                // Solo buscar si hay algo en los campos
                 if (!nombre && !origen) {
                     window.location.href = '${pageContext.request.contextPath}/';
                     return;
                 }
-                
                 let url = '${pageContext.request.contextPath}/search-productos?ajax=true';
                 if (nombre) url += '&nombre=' + encodeURIComponent(nombre);
                 if (origen) url += '&origen=' + encodeURIComponent(origen);
-                
-                fetch(url)
-                    .then(response => response.text())
-                    .then(html => {
-                        document.getElementById('productos-grid').innerHTML = html;
-                    })
-                    .catch(error => {
-                        console.error('Error en la búsqueda:', error);
-                    });
+                fetch(url).then(response => response.text()).then(html => {
+                    document.getElementById('productos-grid').innerHTML = html;
+                }).catch(error => console.error('Error:', error));
             }, 300);
         }
     </script>
 </body>
-
 </html>
