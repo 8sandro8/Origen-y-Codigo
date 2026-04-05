@@ -10,7 +10,6 @@ import com.origencodigo.dao.Database;
 import com.origencodigo.dao.UsuarioDao;
 import com.origencodigo.model.Usuario;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet("/delete-usuario")
 public class DeleteUsuarioServlet extends HttpServlet {
@@ -47,17 +46,14 @@ public class DeleteUsuarioServlet extends HttpServlet {
             
         } catch (NumberFormatException e) {
             response.sendRedirect("usuarios?error=id_invalido");
-        } catch (SQLException e) {
-            String msg = e.getMessage().toLowerCase();
-            if (msg.contains("foreign key") || msg.contains("constraint")) {
+        } catch (Exception e) {
+            String msg = e.getMessage();
+            if (msg != null && (msg.toLowerCase().contains("foreign key") || msg.toLowerCase().contains("constraint"))) {
                 response.sendRedirect("usuarios?error=en_uso");
             } else {
                 e.printStackTrace();
-                response.sendRedirect("usuarios?error=bd");
+                response.sendRedirect("usuarios?error=desconocido");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("usuarios?error=desconocido");
         }
     }
 }

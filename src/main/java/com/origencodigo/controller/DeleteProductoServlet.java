@@ -10,7 +10,6 @@ import com.origencodigo.dao.Database;
 import com.origencodigo.dao.ProductoDao;
 import com.origencodigo.model.Usuario;
 import java.io.IOException;
-import java.sql.SQLException;
 
 @WebServlet("/delete-producto")
 public class DeleteProductoServlet extends HttpServlet {
@@ -47,18 +46,15 @@ public class DeleteProductoServlet extends HttpServlet {
             
         } catch (NumberFormatException e) {
             response.sendRedirect("productos?error=id_invalido");
-        } catch (SQLException e) {
-            // Programación defensiva: capturar restricción de FK
-            String msg = e.getMessage().toLowerCase();
-            if (msg.contains("foreign key") || msg.contains("constraint")) {
+        } catch (Exception e) {
+            // Programación defensiva: capturar restricción de FK o cualquier otra excepción
+            String msg = e.getMessage();
+            if (msg != null && (msg.toLowerCase().contains("foreign key") || msg.toLowerCase().contains("constraint"))) {
                 response.sendRedirect("productos?error=en_uso");
             } else {
                 e.printStackTrace();
-                response.sendRedirect("productos?error=bd");
+                response.sendRedirect("productos?error=desconocido");
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            response.sendRedirect("productos?error=desconocido");
         }
     }
 }
