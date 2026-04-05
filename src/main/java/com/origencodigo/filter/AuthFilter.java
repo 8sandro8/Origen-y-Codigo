@@ -13,7 +13,9 @@ public class AuthFilter implements Filter {
 
     private static final String[] PUBLIC_PATHS = {
         "/", "/login", "/logout", "/list-productos", "/search-productos", 
-        "/view-producto", "/index.jsp", "/static", "/WEB-INF/views/"
+        "/view-producto", "/index.jsp", "/static", "/WEB-INF/views/",
+        "/list-pedidos", "/checkout", "/add-to-cart", "/remove-from-cart", "/cart",
+        "/detalle-pedido", "/profile", "/mi-perfil"
     };
 
     @Override
