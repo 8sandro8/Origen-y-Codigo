@@ -31,9 +31,6 @@ public class DeleteProductoServlet extends HttpServlet {
             return;
         }
         
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-        
         String idParam = request.getParameter("id");
         
         if (idParam == null || idParam.isEmpty()) {
@@ -48,11 +45,11 @@ public class DeleteProductoServlet extends HttpServlet {
             ProductoDao productoDao = Database.connect().onDemand(ProductoDao.class);
             int result = productoDao.delete(id);
             
-            PrintWriter out = response.getWriter();
             if (result > 0) {
-                out.print(new Gson().toJson(new Response(true, "Producto eliminado correctamente")));
+                response.sendRedirect("productos");
             } else {
                 response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                PrintWriter out = response.getWriter();
                 out.print(new Gson().toJson(new Response(false, "Producto no encontrado")));
             }
             
