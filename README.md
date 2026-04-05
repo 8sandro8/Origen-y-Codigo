@@ -1,32 +1,44 @@
-# Origen & Código - Estructura del Proyecto
+# Origen & Código 🏪☕
 
-Proyecto Java Web MVC/DAO para tienda online de café en grano.
+Tienda online de café de especialidad - Proyecto de fin de módulo.
 
-## Estructura
+## Descripción
+
+Este proyecto es un ejercicio académico para practicar desarrollo web con Java. Es una tienda online donde los usuarios pueden:
+
+- Registrarse e iniciar sesión
+- Ver el catálogo de cafés
+- Añadir productos al carrito
+- Hacer pedidos y ver su historial
+
+Los administradores pueden gestionar productos y categorías desde el panel de admin.
+
+## Tecnologías
+
+- **Backend:** Java 17, Maven, Servlets, JSP
+- **Base de datos:** MariaDB
+- **Despliegue:** Docker (contenedor en NAS Synology)
+
+## Cómo ejecutarlo
+
+1. Asegúrate de tener Docker instalado
+2. Ejecuta el contenedor con docker-compose
+3. Accede a `http://localhost:4008`
+
+## Estructura del proyecto
 
 ```
-src/
-├── main/
-│   ├── java/com/origencodigo/
-│   │   ├── model/       # Entidades/POJOs
-│   │   ├── dao/         # Interfaces DAO
-│   │   ├── dao/impl/    # Implementaciones DAO
-│   │   ├── controller/  # Servlets
-│   │   ├── connection/  # Gestión conexión BBDD
-│   │   └── util/        # Utilidades
-│   └── webapp/
-│       ├── WEB-INF/views/  # JSPs
-│       ├── css/
-│       ├── js/
-│       └── images/
-└── test/java/com/origencodigo/dao/  # Tests DAO
+src/main/
+├── java/com/origencodigo/
+│   ├── controller/   # Servlets
+│   ├── dao/          # Acceso a datos
+│   └── model/        # Entidades
+└── webapp/
+    └── WEB-INF/views/  # Páginas JSP
 ```
 
-## Convenciones
+## Notas
 
-- Basado en las convenciones de java.codeandcoke.com
-- Patrón MVC + DAO
-- MariaDB como motor de BBDD
-- Tablas en minúsculas (snake_case)
-- Carrito en HttpSession (sin BBDD)
-- Fragmentos JSP en /WEB-INF/views/components/
+- El carrito se gestiona con la sesión de HTTP
+- La autenticación usa filtros de Servlet
+- Usa Jdbi para acceso a la base de datos
