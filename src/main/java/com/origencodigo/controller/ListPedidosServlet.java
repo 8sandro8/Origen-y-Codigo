@@ -28,18 +28,25 @@ public class ListPedidosServlet extends HttpServlet {
             return;
         }
         
-        PedidoDao pedidoDao = Database.connect().onDemand(PedidoDao.class);
-        List<Pedido> pedidos;
-        
-        // 2. Si es admin: listar todos los pedidos
-        // 3. Si no es admin: listar solo pedidos del usuario
-        if (usuario.isEsAdmin()) {
-            pedidos = pedidoDao.getAll();
-        } else {
-            pedidos = pedidoDao.getByUsuario(usuario.getId());
+        try {
+            PedidoDao pedidoDao = Database.connect().onDemand(PedidoDao.class);
+            List<Pedido> pedidos;
+            
+            // 2. Si es admin: listar todos los pedidos
+            // 3. Si no es admin: listar solo pedidos del usuario
+            if (usuario.isEsAdmin()) {
+                pedidos = pedidoDao.getAll();
+            } else {
+                pedidos = pedidoDao.getByUsuario(usuario.getId());
+            }
+            
+            request.setAttribute("pedidos", pedidos);
+            request.getRequestDispatcher("/WEB-INF/views/pedidos.jsp").forward(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setContentType("text/plain");
+            response.getWriter().print("Error en ListPedidosServlet: " + e.getMessage());
+            response.setStatus(500);
         }
-        
-        request.setAttribute("pedidos", pedidos);
-        request.getRequestDispatcher("/WEB-INF/views/pedidos.jsp").forward(request, response);
     }
 }
