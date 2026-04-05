@@ -57,7 +57,7 @@
                             <c:forEach var="pedido" items="${pedidos}">
                                 <tr>
                                     <td><strong>#${pedido.id}</strong></td>
-                                    <td><fmt:formatDate value="${pedido.fechaPedido}" pattern="dd/MM/yyyy HH:mm" /></td>
+                                    <td>${pedido.fechaFormateada}</td>
                                     <td><fmt:formatNumber value="${pedido.total}" minFractionDigits="2" /> €</td>
                                     <td>
                                         <c:choose>

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
@@ -15,4 +16,9 @@ public class Pedido {
     private LocalDateTime fechaPedido;
     private BigDecimal total;
     private String estado;
+    
+    public String getFechaFormateada() {
+        if (fechaPedido == null) return "";
+        return fechaPedido.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+    }
 }
