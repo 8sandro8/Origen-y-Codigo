@@ -50,7 +50,7 @@ public class DetallePedidoServlet extends HttpServlet {
                 return;
             }
             
-            // Verificar权限: admin puede ver todos, usuario solo los suyos
+            // Verificar permiso: admin puede ver todos, usuario solo los suyos
             if (!usuario.isEsAdmin() && pedido.getUsuarioId() != usuario.getId()) {
                 response.sendRedirect(request.getContextPath() + "/list-pedidos");
                 return;
@@ -63,9 +63,11 @@ public class DetallePedidoServlet extends HttpServlet {
             // Obtener datos de productos para mostrar nombre
             ProductoDao productoDao = Database.connect().onDemand(ProductoDao.class);
             List<Producto> productos = new ArrayList<>();
-            for (PedidoItem item : items) {
-                Producto producto = productoDao.getById(item.getProductoId());
-                productos.add(producto);
+            if (items != null) {
+                for (PedidoItem item : items) {
+                    Producto producto = productoDao.getById(item.getProductoId());
+                    productos.add(producto);
+                }
             }
             
             request.setAttribute("pedido", pedido);
@@ -73,8 +75,11 @@ public class DetallePedidoServlet extends HttpServlet {
             request.setAttribute("productos", productos);
             request.getRequestDispatcher("/WEB-INF/views/detalle-pedido.jsp").forward(request, response);
             
-        } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/list-pedidos");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setContentType("text/plain");
+            response.getWriter().print("Error en DetallePedidoServlet: " + e.getMessage());
+            response.setStatus(500);
         }
     }
 }

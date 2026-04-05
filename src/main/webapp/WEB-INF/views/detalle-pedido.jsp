@@ -27,7 +27,7 @@
                 <div class="card shadow-sm">
                     <div class="card-body">
                         <h6 class="card-subtitle mb-2 text-muted"><i class="bi bi-calendar"></i> Fecha</h6>
-                        <p class="card-text fs-5"><fmt:formatDate value="${pedido.fechaPedido}" pattern="dd/MM/yyyy HH:mm" /></p>
+                        <p class="card-text fs-5">${pedido.fechaFormateada}</p>
                     </div>
                 </div>
             </div>
@@ -94,7 +94,7 @@
                                     <div class="d-flex align-items-center">
                                         <c:choose>
                                             <c:when test="${not empty productos[status.index].imagenUrl}">
-                                                <img src="${productos[status.index].imagenUrl}" 
+                                                <img src="${pageContext.request.contextPath}/uploads/${productos[status.index].imagenUrl}" 
                                                      alt="${productos[status.index].nombre}"
                                                      style="width: 50px; height: 50px; object-fit: cover;" 
                                                      class="rounded me-3">
