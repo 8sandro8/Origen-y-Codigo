@@ -45,7 +45,12 @@ public class SearchProductosServlet extends HttpServlet {
                     out.print("<a href='" + request.getContextPath() + "/detalle-producto?id=" + p.getId() + "' class='text-decoration-none d-block h-100'>");
                     
                     if (p.getImagenUrl() != null && !p.getImagenUrl().isEmpty()) {
-                        out.print("<img src='" + request.getContextPath() + "/uploads/" + p.getImagenUrl() + "' class='card-img-top' alt='" + p.getNombre() + "' style='height: 200px; width: 100%; object-fit: cover;'>");
+                        String imagenUrl = p.getImagenUrl();
+                        // Limpiar barras extra al inicio
+                        if (imagenUrl.startsWith("/")) {
+                            imagenUrl = imagenUrl.substring(1);
+                        }
+                        out.print("<img src='" + request.getContextPath() + "/uploads/" + imagenUrl + "' class='card-img-top' alt='" + p.getNombre() + "' style='height: 200px; width: 100%; object-fit: cover;'>");
                     } else {
                         out.print("<div class='d-flex align-items-center justify-content-center bg-secondary' style='height: 200px;'>");
                         out.print("<i class='bi bi-cup-hot fs-1 text-white'></i>");
