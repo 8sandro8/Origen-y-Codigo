@@ -10,8 +10,7 @@ import com.origencodigo.dao.Database;
 import com.origencodigo.dao.ProductoDao;
 import com.origencodigo.model.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
-import com.google.gson.Gson;
+import java.sql.SQLException;
 
 @WebServlet("/delete-producto")
 public class DeleteProductoServlet extends HttpServlet {
@@ -20,23 +19,18 @@ public class DeleteProductoServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Verificar que es Admin
         HttpSession session = request.getSession();
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         
         if (usuario == null || !usuario.isEsAdmin()) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            PrintWriter out = response.getWriter();
-            out.print(new Gson().toJson(new Response(false, "No autorizado")));
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
         
         String idParam = request.getParameter("id");
         
         if (idParam == null || idParam.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            PrintWriter out = response.getWriter();
-            out.print(new Gson().toJson(new Response(false, "ID no proporcionado")));
+            response.sendRedirect("productos?error=id_faltante");
             return;
         }
         
@@ -46,27 +40,25 @@ public class DeleteProductoServlet extends HttpServlet {
             int result = productoDao.delete(id);
             
             if (result > 0) {
-                response.sendRedirect("productos");
+                response.sendRedirect("productos?success=borrado");
             } else {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                PrintWriter out = response.getWriter();
-                out.print(new Gson().toJson(new Response(false, "Producto no encontrado")));
+                response.sendRedirect("productos?error=no_encontrado");
             }
             
         } catch (NumberFormatException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            PrintWriter out = response.getWriter();
-            out.print(new Gson().toJson(new Response(false, "ID inválido")));
-        }
-    }
-    
-    private static class Response {
-        public boolean success;
-        public String message;
-        
-        public Response(boolean success, String message) {
-            this.success = success;
-            this.message = message;
+            response.sendRedirect("productos?error=id_invalido");
+        } catch (SQLException e) {
+            // Programación defensiva: capturar restricción de FK
+            String msg = e.getMessage().toLowerCase();
+            if (msg.contains("foreign key") || msg.contains("constraint")) {
+                response.sendRedirect("productos?error=en_uso");
+            } else {
+                e.printStackTrace();
+                response.sendRedirect("productos?error=bd");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("productos?error=desconocido");
         }
     }
 }

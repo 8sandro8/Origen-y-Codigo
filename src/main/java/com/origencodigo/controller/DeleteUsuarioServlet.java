@@ -10,8 +10,7 @@ import com.origencodigo.dao.Database;
 import com.origencodigo.dao.UsuarioDao;
 import com.origencodigo.model.Usuario;
 import java.io.IOException;
-import java.io.PrintWriter;
-import com.google.gson.Gson;
+import java.sql.SQLException;
 
 @WebServlet("/delete-usuario")
 public class DeleteUsuarioServlet extends HttpServlet {
@@ -24,18 +23,14 @@ public class DeleteUsuarioServlet extends HttpServlet {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         
         if (usuario == null || !usuario.isEsAdmin()) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            PrintWriter out = response.getWriter();
-            out.print(new Gson().toJson(new Response(false, "No autorizado")));
+            response.sendRedirect(request.getContextPath() + "/login");
             return;
         }
         
         String idParam = request.getParameter("id");
         
         if (idParam == null || idParam.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            PrintWriter out = response.getWriter();
-            out.print(new Gson().toJson(new Response(false, "ID no proporcionado")));
+            response.sendRedirect("usuarios?error=id_faltante");
             return;
         }
         
@@ -45,27 +40,24 @@ public class DeleteUsuarioServlet extends HttpServlet {
             int result = usuarioDao.delete(id);
             
             if (result > 0) {
-                response.sendRedirect("usuarios");
+                response.sendRedirect("usuarios?success=borrado");
             } else {
-                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                PrintWriter out = response.getWriter();
-                out.print(new Gson().toJson(new Response(false, "Usuario no encontrado")));
+                response.sendRedirect("usuarios?error=no_encontrado");
             }
             
         } catch (NumberFormatException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            PrintWriter out = response.getWriter();
-            out.print(new Gson().toJson(new Response(false, "ID inválido")));
-        }
-    }
-    
-    private static class Response {
-        public boolean success;
-        public String message;
-        
-        public Response(boolean success, String message) {
-            this.success = success;
-            this.message = message;
+            response.sendRedirect("usuarios?error=id_invalido");
+        } catch (SQLException e) {
+            String msg = e.getMessage().toLowerCase();
+            if (msg.contains("foreign key") || msg.contains("constraint")) {
+                response.sendRedirect("usuarios?error=en_uso");
+            } else {
+                e.printStackTrace();
+                response.sendRedirect("usuarios?error=bd");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.sendRedirect("usuarios?error=desconocido");
         }
     }
 }

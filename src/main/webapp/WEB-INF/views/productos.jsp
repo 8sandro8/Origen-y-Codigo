@@ -19,28 +19,28 @@
                 <a href="${pageContext.request.contextPath}/add-producto" class="btn btn-primary">
                     <i class="bi bi-plus-circle"></i> Nuevo Producto
                 </a>
-            </c:if>
+</c:if>
         </div>
 
-        <div class="card mb-4">
-            <div class="card-body">
-                <form action="${pageContext.request.contextPath}/search-productos" method="get" class="row g-3">
-                    <div class="col-md-4">
-                        <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Buscar por nombre...">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="origen" class="form-label">Origen</label>
-                        <input type="text" class="form-control" id="origen" name="origen" placeholder="Buscar por origen...">
-                    </div>
-                    <div class="col-md-4 d-flex align-items-end">
-                        <button type="submit" class="btn btn-outline-primary w-100">
-                            <i class="bi bi-search"></i> Buscar
-                        </button>
-                    </div>
-                </form>
+        <!-- Alerts -->
+        <c:if test="${param.success == 'borrado'}">
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle"></i> Producto eliminado correctamente.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-        </div>
+        </c:if>
+        <c:if test="${param.error == 'en_uso'}">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle"></i> No se puede eliminar. El producto está en uso en pedidos existentes.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </c:if>
+        <c:if test="${param.error == 'bd'}">
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-triangle"></i> Error de base de datos. Inténtalo de nuevo.
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        </c:if>
 
         <div class="card shadow-sm">
             <div class="card-body p-0">
