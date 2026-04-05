@@ -12,17 +12,26 @@ import java.math.BigDecimal;
 @RegisterBeanMapper(Producto.class)
 public interface ProductoDao extends SqlObject {
 
-    @SqlQuery("SELECT * FROM productos")
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos")
     List<Producto> getAll();
 
-    @SqlQuery("SELECT * FROM productos WHERE id = :id")
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos ORDER BY id LIMIT :limit OFFSET :offset")
+    List<Producto> getAllPaginated(@Bind("limit") int limit, @Bind("offset") int offset);
+
+    @SqlQuery("SELECT COUNT(*) FROM productos")
+    int getTotalCount();
+
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE id = :id")
     Producto getById(@Bind("id") int id);
 
-    @SqlQuery("SELECT * FROM productos WHERE categoria_id = :categoriaId")
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE categoria_id = :categoriaId")
     List<Producto> getByCategoria(@Bind("categoriaId") int categoriaId);
 
-    @SqlQuery("SELECT * FROM productos WHERE nombre LIKE CONCAT('%', :nombre, '%') AND origen LIKE CONCAT('%', :origen, '%')")
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE nombre LIKE CONCAT('%', :nombre, '%') AND origen LIKE CONCAT('%', :origen, '%')")
     List<Producto> search(@Bind("nombre") String nombre, @Bind("origen") String origen);
+
+    @SqlQuery("SELECT id, categoria_id AS categoriaId, nombre, descripcion, precio, origen, imagen_url AS imagenUrl, stock_disponible AS stockDisponible FROM productos WHERE categoria_id = :categoriaId AND id != :excludeId ORDER BY RAND() LIMIT :limit")
+    List<Producto> getRecomendados(@Bind("categoriaId") int categoriaId, @Bind("excludeId") int excludeId, @Bind("limit") int limit);
 
     @SqlUpdate("INSERT INTO productos (categoria_id, nombre, descripcion, precio, origen, imagen_url, stock_disponible) VALUES (:categoriaId, :nombre, :descripcion, :precio, :origen, :imagenUrl, :stockDisponible)")
     int add(@Bind("categoriaId") int categoriaId, @Bind("nombre") String nombre, @Bind("descripcion") String descripcion, @Bind("precio") BigDecimal precio, @Bind("origen") String origen, @Bind("imagenUrl") String imagenUrl, @Bind("stockDisponible") boolean stockDisponible);

@@ -49,7 +49,7 @@ public class HomeServlet extends HttpServlet {
             request.setAttribute("totalPaginas", totalPaginas);
             request.setAttribute("totalProductos", totalProductos);
             
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            request.getRequestDispatcher("/home.jsp").forward(request, response);
             
         } catch (Exception e) {
             e.printStackTrace();

@@ -13,21 +13,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/">
-                <img src="${pageContext.request.contextPath}/images/logo.png" alt="Logo" style="height: 50px; object-fit: contain;">
-            </a>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-relative" style="height: 120px;">
+        <div class="container-fluid">
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <a class="navbar-brand position-absolute top-50 start-50 translate-middle" href="${pageContext.request.contextPath}/" style="z-index: 2;">
+                <img src="${pageContext.request.contextPath}/images/logo-transparente.png" alt="Origen y Código" style="height: 100px; object-fit: contain;">
+            </a>
+
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto" style="z-index: 1;">
                     <li class="nav-item">
-                        <a class="nav-link" href="<%= request.getContextPath() %>/">Inicio</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/list-productos"><i class="bi bi-grid-3x3-gap"></i> Catálogo</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="<%= request.getContextPath() %>/list-productos">Productos</a>
+                        <a class="nav-link" href="${pageContext.request.contextPath}/"><i class="bi bi-house-door"></i> Inicio</a>
                     </li>
                     <%
                         if (usuario != null) {

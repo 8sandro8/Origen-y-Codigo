@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   app:
-    image: origencodigo-app:v2
+    image: origencodigo-app:v3
     build:
       context: .
       dockerfile: Dockerfile
@@ -12,12 +12,15 @@ services:
       - DB_URL=${DB_URL:-jdbc:mariadb://db:3306/origen_codigo}
       - DB_USER=${DB_USER:-root}
       - DB_PASSWORD=${DB_PASSWORD:-rootpassword}
+      - UPLOAD_DIR=/usr/local/tomcat/webapps/uploads
+    volumes:
+      - uploads_data:/usr/local/tomcat/webapps/uploads
     restart: unless-stopped
     depends_on:
       - db
 
   db:
-    image: mariadb:10.11
+    image: mariadb:11.4
     ports:
       - "4009:3306"
     environment:
@@ -25,8 +28,11 @@ services:
       - MYSQL_DATABASE=origen_codigo
     volumes:
       - mariadb_data:/var/lib/mysql
-      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      # AÑADIMOS PREFIJOS NUMÉRICOS PARA FORZAR EL ORDEN DE EJECUCIÓN
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
+      - ./db/init.sql:/docker-entrypoint-initdb.d/02-init.sql
     restart: unless-stopped
 
 volumes:
   mariadb_data:
+  uploads_data:

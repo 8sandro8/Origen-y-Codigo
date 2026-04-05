@@ -17,6 +17,9 @@ public interface CategoriaDao extends SqlObject {
     @SqlQuery("SELECT * FROM categorias WHERE id = :id")
     Categoria getById(@Bind("id") int id);
 
+    @SqlQuery("SELECT * FROM categorias WHERE nombre LIKE CONCAT('%', :nombre, '%') AND descripcion LIKE CONCAT('%', :descripcion, '%')")
+    List<Categoria> search(@Bind("nombre") String nombre, @Bind("descripcion") String descripcion);
+
     @SqlUpdate("INSERT INTO categorias (nombre, descripcion) VALUES (:nombre, :descripcion)")
     int add(@Bind("nombre") String nombre, @Bind("descripcion") String descripcion);
 

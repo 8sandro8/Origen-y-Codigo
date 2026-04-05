@@ -46,7 +46,7 @@
                         <div class="col-md-5">
                             <c:choose>
                                 <c:when test="${not empty producto.imagenUrl}">
-                                    <img src="${producto.imagenUrl}" alt="${producto.nombre}" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
+                                    <img src="${pageContext.request.contextPath}/uploads/${producto.imagenUrl}" alt="${producto.nombre}" class="img-fluid rounded" style="max-height: 400px; object-fit: contain;">
                                 </c:when>
                                 <c:otherwise>
                                     <div class="bg-secondary d-flex align-items-center justify-content-center text-white rounded" style="height: 300px;">
@@ -100,9 +100,12 @@
                                 <a href="${pageContext.request.contextPath}/edit-producto?id=${producto.id}" class="btn btn-warning">
                                     <i class="bi bi-pencil"></i> Editar
                                 </a>
-                                <a href="${pageContext.request.contextPath}/delete-producto?id=${producto.id}" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este producto?')">
-                                    <i class="bi bi-trash"></i> Eliminar
-                                </a>
+                                <form method="POST" action="${pageContext.request.contextPath}/delete-producto" style="display:inline;">
+                                    <input type="hidden" name="id" value="${producto.id}">
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás totally seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer.');">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     </div>

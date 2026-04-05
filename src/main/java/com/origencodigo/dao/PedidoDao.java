@@ -6,6 +6,7 @@ import org.jdbi.v3.sqlobject.statement.SqlQuery;
 import org.jdbi.v3.sqlobject.statement.SqlUpdate;
 import org.jdbi.v3.sqlobject.config.RegisterBeanMapper;
 import org.jdbi.v3.sqlobject.customizer.Bind;
+import org.jdbi.v3.sqlobject.statement.GetGeneratedKeys;
 import java.util.List;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public interface PedidoDao extends SqlObject {
     List<Pedido> getByUsuario(@Bind("usuarioId") int usuarioId);
 
     @SqlUpdate("INSERT INTO pedidos (usuario_id, fecha_pedido, total, estado) VALUES (:usuarioId, :fechaPedido, :total, :estado)")
+    @GetGeneratedKeys
     int add(@Bind("usuarioId") int usuarioId, @Bind("fechaPedido") LocalDateTime fechaPedido, @Bind("total") BigDecimal total, @Bind("estado") String estado);
 
     @SqlUpdate("UPDATE pedidos SET estado = :estado WHERE id = :id")

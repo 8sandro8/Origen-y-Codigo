@@ -33,6 +33,15 @@ public interface UsuarioDao extends SqlObject {
     @SqlUpdate("UPDATE usuarios SET nombre = :nombre, email = :email, contrasena = :contrasena, es_admin = :esAdmin WHERE id = :id")
     int update(@Bind("id") int id, @Bind("nombre") String nombre, @Bind("email") String email, @Bind("contrasena") String contrasena, @Bind("esAdmin") boolean esAdmin);
 
+    @SqlQuery("SELECT contrasena FROM usuarios WHERE id = :id")
+    String getContrasena(@Bind("id") int id);
+
+    @SqlUpdate("UPDATE usuarios SET nombre = :nombre, email = :email WHERE id = :id")
+    int actualizarPerfil(@Bind("id") int id, @Bind("nombre") String nombre, @Bind("email") String email);
+
     @SqlUpdate("DELETE FROM usuarios WHERE id = :id")
     int delete(@Bind("id") int id);
+
+    @SqlQuery("SELECT * FROM usuarios WHERE nombre LIKE CONCAT('%', :nombre, '%') AND email LIKE CONCAT('%', :email, '%')")
+    List<Usuario> search(@Bind("nombre") String nombre, @Bind("email") String email);
 }
