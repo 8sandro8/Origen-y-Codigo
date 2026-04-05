@@ -18,7 +18,7 @@
 
         <c:if test="${param.success == 'pedido_creado'}">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <i class="bi bi-check-circle"></i> Tu pedido ha sido creado correctamente. Número de pedido: ${ultimoPedidoId}
+                <i class="bi bi-check-circle"></i> Tu pedido ha sido creado correctamente. Número de pedido: ${param.pedidoId}
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
         </c:if>

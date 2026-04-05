@@ -67,8 +67,8 @@ public class CheckoutServlet extends HttpServlet {
             // 7. Vaciar carrito
             session.removeAttribute("carrito");
             
-            // 8. Redirigir a /list-pedidos con mensaje éxito
-            response.sendRedirect(request.getContextPath() + "/list-pedidos?success=pedido_creado");
+            // 8. Redirigir a /list-pedidos con mensaje éxito e ID del pedido
+            response.sendRedirect(request.getContextPath() + "/list-pedidos?success=pedido_creado&pedidoId=" + pedidoId);
             
         } catch (Exception e) {
             e.printStackTrace();
