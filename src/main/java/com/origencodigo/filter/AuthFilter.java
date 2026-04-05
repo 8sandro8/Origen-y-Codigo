@@ -46,8 +46,12 @@ public class AuthFilter implements Filter {
     }
 
     private boolean isPublicPath(String path) {
+        // Normalizar path: quitar barras trailing
+        String normalizedPath = path.endsWith("/") && path.length() > 1 ? path.substring(0, path.length() - 1) : path;
+        
         for (String publicPath : PUBLIC_PATHS) {
-            if (path.equals(publicPath) || path.startsWith(publicPath)) {
+            String normalizedPublic = publicPath.endsWith("/") && publicPath.length() > 1 ? publicPath.substring(0, publicPath.length() - 1) : publicPath;
+            if (normalizedPath.equals(normalizedPublic) || normalizedPath.startsWith(normalizedPublic + "/")) {
                 return true;
             }
         }
