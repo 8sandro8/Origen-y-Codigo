@@ -86,13 +86,13 @@
 
                         <c:choose>
                             <c:when test="${producto.stockDisponible}">
-                                <form action="${pageContext.request.contextPath}/add-to-cart" method="post" class="d-flex gap-2">
-                                    <input type="hidden" name="id" value="${producto.id}">
-                                    <input type="number" name="cantidad" value="1" min="1" max="99" class="form-control" style="width: 80px;">
-                                    <button type="submit" class="btn btn-warning btn-lg fw-bold flex-grow-1">
+                                <div class="d-flex gap-2">
+                                    <input type="hidden" id="producto-id" value="${producto.id}">
+                                    <input type="number" id="cantidad-input" name="cantidad" value="1" min="1" max="99" class="form-control" style="width: 80px;">
+                                    <button type="button" id="btn-anadir-detalle" class="btn btn-warning btn-lg fw-bold flex-grow-1">
                                         <i class="bi bi-cart-plus me-2"></i>Añadir al Carrito
                                     </button>
-                                </form>
+                                </div>
                             </c:when>
                             <c:otherwise>
                                 <button class="btn btn-secondary btn-lg w-100 fw-bold" disabled>
@@ -156,5 +156,58 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('btn-anadir-detalle').addEventListener('click', function() {
+            const productoId = document.getElementById('producto-id').value;
+            const cantidad = document.getElementById('cantidad-input').value;
+            const btn = this;
+            
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Añadiendo...';
+            btn.disabled = true;
+            
+            fetch('${pageContext.request.contextPath}/add-to-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: 'id=' + productoId + '&cantidad=' + cantidad
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    btn.innerHTML = '<i class="bi bi-check-lg me-2"></i>Añadido ✔️';
+                    btn.classList.remove('btn-warning');
+                    btn.classList.add('btn-success');
+                    
+                    // Actualizar badge del carrito
+                    const navLink = document.querySelector('a[href="${pageContext.request.contextPath}/cart"]');
+                    const existingBadge = navLink.querySelector('.badge');
+                    if (existingBadge) {
+                        existingBadge.textContent = data.totalItems;
+                    } else {
+                        const newBadge = document.createElement('span');
+                        newBadge.className = 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger';
+                        newBadge.textContent = data.totalItems;
+                        navLink.appendChild(newBadge);
+                    }
+                    
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-warning');
+                        btn.disabled = false;
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                alert('Error al añadir al carrito');
+            });
+        });
+    </script>
 </body>
 </html>

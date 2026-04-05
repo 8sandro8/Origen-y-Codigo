@@ -64,10 +64,8 @@ public class SearchProductosServlet extends HttpServlet {
                     
                     out.print("<div class='card-footer bg-white border-top-0'>");
                     if (p.isStockDisponible()) {
-                        out.print("<form action='" + request.getContextPath() + "/add-to-cart' method='post'>");
-                        out.print("<input type='hidden' name='id' value='" + p.getId() + "'>");
-                        out.print("<button type='submit' class='btn btn-warning w-100 fw-bold'><i class='bi bi-cart-plus me-2'></i>Añadir</button>");
-                        out.print("</form>");
+                        out.print("<button type='button' class='btn btn-warning w-100 fw-bold btn-anadir' data-id='" + p.getId() + "'>");
+                        out.print("<i class='bi bi-cart-plus me-2'></i>Añadir</button>");
                     } else {
                         out.print("<button class='btn btn-secondary w-100 fw-bold' disabled><i class='bi bi-x-circle me-2'></i>Sin stock</button>");
                     }

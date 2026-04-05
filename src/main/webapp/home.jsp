@@ -77,10 +77,9 @@
                             <div class="card-footer bg-white border-top-0">
                                 <c:choose>
                                     <c:when test="${producto.stockDisponible}">
-                                        <form action="${pageContext.request.contextPath}/add-to-cart" method="post">
-                                            <input type="hidden" name="id" value="${producto.id}">
-                                            <button type="submit" class="btn btn-warning w-100 fw-bold"><i class="bi bi-cart-plus me-2"></i>Añadir</button>
-                                        </form>
+                                        <button type="button" class="btn btn-warning w-100 fw-bold btn-anadir" data-id="${producto.id}">
+                                            <i class="bi bi-cart-plus me-2"></i>Añadir
+                                        </button>
                                     </c:when>
                                     <c:otherwise>
                                         <button class="btn btn-secondary w-100 fw-bold" disabled><i class="bi bi-x-circle me-2"></i>Sin stock</button>
@@ -130,6 +129,75 @@
                     document.getElementById('productos-grid').innerHTML = html;
                 }).catch(error => console.error('Error:', error));
             }, 300);
+        }
+
+        // Función AJAX para añadir al carrito
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('.btn-anadir');
+            if (!btn) return;
+            
+            e.preventDefault();
+            const productoId = btn.getAttribute('data-id');
+            
+            // Feedback visual inmediato
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Añadiendo...';
+            btn.disabled = true;
+            
+            fetch('${pageContext.request.contextPath}/add-to-cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: 'id=' + productoId
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    btn.innerHTML = '<i class="bi bi-check-lg me-2"></i>Añadido ✔️';
+                    btn.classList.remove('btn-warning');
+                    btn.classList.add('btn-success');
+                    
+                    // Actualizar badge del carrito en navbar
+                    actualizarBadgeCarrito(data.totalItems);
+                    
+                    // Restaurar botón después de 2 segundos
+                    setTimeout(() => {
+                        btn.innerHTML = originalHTML;
+                        btn.classList.remove('btn-success');
+                        btn.classList.add('btn-warning');
+                        btn.disabled = false;
+                    }, 2000);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                btn.innerHTML = originalHTML;
+                btn.disabled = false;
+                alert('Error al añadir al carrito');
+            });
+        });
+
+        function actualizarBadgeCarrito(totalItems) {
+            fetch('${pageContext.request.contextPath}/cart-nav-items')
+                .then(res => res.text())
+                .then(html => {
+                    const navLink = document.querySelector('a[href="${pageContext.request.contextPath}/cart"]');
+                    const existingBadge = navLink.querySelector('.badge');
+                    if (totalItems === 0) {
+                        if (existingBadge) existingBadge.remove();
+                    } else {
+                        if (existingBadge) {
+                            existingBadge.textContent = totalItems;
+                        } else {
+                            const newBadge = document.createElement('span');
+                            newBadge.className = 'position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger';
+                            newBadge.textContent = totalItems;
+                            navLink.appendChild(newBadge);
+                        }
+                    }
+                });
         }
     </script>
 </body>

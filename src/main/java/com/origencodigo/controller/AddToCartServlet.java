@@ -49,6 +49,16 @@ public class AddToCartServlet extends HttpServlet {
         
         session.setAttribute("carrito", carrito);
         
-        response.sendRedirect(request.getHeader("Referer"));
+        // Detectar si es petición AJAX
+        String ajaxHeader = request.getHeader("X-Requested-With");
+        boolean isAjax = "XMLHttpRequest".equals(ajaxHeader);
+        
+        if (isAjax) {
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write("{\"success\": true, \"totalItems\": " + carrito.size() + "}");
+        } else {
+            response.sendRedirect(request.getHeader("Referer"));
+        }
     }
 }
