@@ -49,5 +49,3 @@
 - Diseño responsive
 - Docker Compose funcionando
 - Git Flow aplicado correctamente
-
-**Puedes presentar el proyecto con confianza.** 🚀
