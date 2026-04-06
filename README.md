@@ -42,3 +42,5 @@ src/main/
 - El carrito se gestiona con la sesión de HTTP
 - La autenticación usa filtros de Servlet
 - Usa Jdbi para acceso a la base de datos
+
+Puedes ver capturas del proyecto funcionando en la carpeta capturas/.

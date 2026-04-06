@@ -25,17 +25,17 @@ public class CheckoutServlet extends HttpServlet {
         
         HttpSession session = request.getSession();
         
-        // 1. Obtener lista deItemsCarrito de la sesión
+        // Obtener carrito de la sesión
         @SuppressWarnings("unchecked")
         List<ItemCarrito> carrito = (List<ItemCarrito>) session.getAttribute("carrito");
         
-        // 2. Si carrito vacío, redirigir a /cart con error
+        // Verificar que el carrito no esté vacío
         if (carrito == null || carrito.isEmpty()) {
             response.sendRedirect(request.getContextPath() + "/cart?error=carrito_vacio");
             return;
         }
         
-        // 3. Obtener usuario de sesión
+        // Obtener usuario logueado
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) {
             response.sendRedirect(request.getContextPath() + "/login?redirect=/checkout");
@@ -43,17 +43,17 @@ public class CheckoutServlet extends HttpServlet {
         }
         
         try {
-            // 4. Calcular total del carrito
+            // Calcular total
             BigDecimal total = BigDecimal.ZERO;
             for (ItemCarrito item : carrito) {
                 total = total.add(item.getSubtotal());
             }
             
-            // 5. Insertar pedido en BBDD (estado: "pendiente")
+            // Guardar pedido en la base de datos
             PedidoDao pedidoDao = Database.connect().onDemand(PedidoDao.class);
             int pedidoId = pedidoDao.add(usuario.getId(), LocalDateTime.now(), total, "pendiente");
             
-            // 6. Insertar cada item en items_pedido
+            // Guardar los items del pedido
             PedidoItemDao pedidoItemDao = Database.connect().onDemand(PedidoItemDao.class);
             for (ItemCarrito item : carrito) {
                 pedidoItemDao.add(
@@ -64,10 +64,10 @@ public class CheckoutServlet extends HttpServlet {
                 );
             }
             
-            // 7. Vaciar carrito
+            // Vaciar carrito después de comprar
             session.removeAttribute("carrito");
             
-            // 8. Redirigir a /list-pedidos con mensaje éxito e ID del pedido
+            // Redirigir a pedidos
             response.sendRedirect(request.getContextPath() + "/list-pedidos?success=pedido_creado&pedidoId=" + pedidoId);
             
         } catch (Exception e) {
