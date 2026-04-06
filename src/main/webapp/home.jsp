@@ -97,6 +97,44 @@
                     </div>
                 </c:if>
             </div>
+            
+            <!-- Navegación de paginación -->
+            <c:if test="${totalPaginas > 1}">
+                <nav aria-label="Paginación" class="mt-5">
+                    <ul class="pagination justify-content-center">
+                        <!-- Página anterior -->
+                        <c:choose>
+                            <c:when test="${paginaActual > 1}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?pagina=${paginaActual - 1}">Anterior</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+                            </c:otherwise>
+                        </c:choose>
+                        
+                        <!-- Números de página -->
+                        <c:forEach begin="1" end="${totalPaginas}" var="i">
+                            <li class="page-item ${i == paginaActual ? 'active' : ''}">
+                                <a class="page-link" href="?pagina=${i}">${i}</a>
+                            </li>
+                        </c:forEach>
+                        
+                        <!-- Página siguiente -->
+                        <c:choose>
+                            <c:when test="${paginaActual < totalPaginas}">
+                                <li class="page-item">
+                                    <a class="page-link" href="?pagina=${paginaActual + 1}">Siguiente</a>
+                                </li>
+                            </c:when>
+                            <c:otherwise>
+                                <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
+                </nav>
+            </c:if>
         </div>
     </section>
 

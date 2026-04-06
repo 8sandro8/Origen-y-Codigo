@@ -18,7 +18,7 @@ public class HomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        // Paginación: 8 productos por página
+        // Paginación: 9 productos por página
         int pagina = 1;
         try {
             String paginaParam = request.getParameter("pagina");
@@ -29,7 +29,7 @@ public class HomeServlet extends HttpServlet {
             pagina = 1;
         }
         
-        int productosPorPagina = 8;
+        int productosPorPagina = 9;
         int offset = (pagina - 1) * productosPorPagina;
         
         try {
