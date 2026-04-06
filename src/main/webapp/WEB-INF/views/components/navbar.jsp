@@ -37,8 +37,19 @@
                     <li class="nav-item ms-2"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/logout"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a></li>
                 </c:if>
                 <c:if test="${sessionScope.usuario == null}">
-                    <li class="nav-item ms-2"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/login"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a></li>
-                    <li class="nav-item ms-2"><a class="nav-link fs-5" href="${pageContext.request.contextPath}/add-usuario"><i class="bi bi-person-plus"></i> Registrarse</a></li>
+                    <li class="nav-item ms-2 dropdown">
+                        <a class="nav-link fs-5 dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person"></i> Usuario
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/login">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar sesión
+                            </a></li>
+                            <li><a class="dropdown-item" href="${pageContext.request.contextPath}/register">
+                                <i class="bi bi-person-plus me-2"></i>Crear cuenta
+                            </a></li>
+                        </ul>
+                    </li>
                 </c:if>
                 <li class="nav-item ms-2">
                     <a class="nav-link fs-5 position-relative" href="${pageContext.request.contextPath}/cart">
