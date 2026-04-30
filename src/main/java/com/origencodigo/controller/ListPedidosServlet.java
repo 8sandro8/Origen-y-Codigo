@@ -31,16 +31,27 @@ public class ListPedidosServlet extends HttpServlet {
         try {
             PedidoDao pedidoDao = Database.connect().onDemand(PedidoDao.class);
             List<Pedido> pedidos;
-            
-            // 2. Si es admin: listar todos los pedidos
-            // 3. Si no es admin: listar solo pedidos del usuario
-            if (usuario.isEsAdmin()) {
+            String titulo = "Mis Pedidos";
+
+            // Si viene usuarioId por parametro (desde vista usuario), mostrar pedidos de ese usuario
+            String usuarioIdParam = request.getParameter("usuarioId");
+            if (usuarioIdParam != null && !usuarioIdParam.isEmpty()) {
+                // Admin quiere ver pedidos de un usuario especifico
+                int usuarioIdTarget = Integer.parseInt(usuarioIdParam);
+                pedidos = pedidoDao.getByUsuario(usuarioIdTarget);
+                titulo = "Pedidos del Usuario";
+            } else if (usuario.isEsAdmin()) {
+                // Admin sin parametro → todos los pedidos
                 pedidos = pedidoDao.getAll();
+                titulo = "Todos los Pedidos";
             } else {
+                // Cliente sin parametro → solo sus pedidos
                 pedidos = pedidoDao.getByUsuario(usuario.getId());
+                titulo = "Mis Pedidos";
             }
-            
+
             request.setAttribute("pedidos", pedidos);
+            request.setAttribute("titulo", titulo);
             request.getRequestDispatcher("/WEB-INF/views/pedidos.jsp").forward(request, response);
         } catch (Exception e) {
             e.printStackTrace();

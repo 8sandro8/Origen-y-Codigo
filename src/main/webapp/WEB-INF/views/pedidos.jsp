@@ -14,7 +14,7 @@
 <body class="bg-light">
 
     <div class="container">
-        <h2 class="mb-4"><i class="bi bi-bag"></i> Mis Pedidos</h2>
+        <h2 class="mb-4"><i class="bi bi-bag"></i> ${empty titulo ? 'Mis Pedidos' : titulo}</h2>
 
         <c:if test="${param.success == 'pedido_creado'}">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
