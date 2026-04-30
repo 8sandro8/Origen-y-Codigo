@@ -47,8 +47,11 @@ public class ViewUsuarioServlet extends HttpServlet {
             request.setAttribute("usuario", usuario);
             request.getRequestDispatcher("/WEB-INF/views/view-usuario.jsp").forward(request, response);
             
-        } catch (NumberFormatException e) {
-            response.sendRedirect(request.getContextPath() + "/list-usuarios");
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setContentType("text/plain");
+            response.getWriter().write("Error en ViewUsuarioServlet: " + e.getMessage());
+            response.setStatus(500);
         }
     }
 }
