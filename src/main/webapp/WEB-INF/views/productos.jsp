@@ -83,9 +83,9 @@
                                         <a href="${pageContext.request.contextPath}/edit-producto?id=${producto.id}" class="btn btn-sm btn-warning" title="Editar">
                                             <i class="bi bi-pencil"></i>
                                         </a>
-                                        <form method="POST" action="${pageContext.request.contextPath}/delete-producto" style="display:inline;">
+                                        <form method="POST" action="${pageContext.request.contextPath}/delete-producto" style="display:inline;" class="form-delete">
                                             <input type="hidden" name="id" value="${producto.id}">
-                                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Estás totally seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer.');">
+                                            <button type="submit" class="btn btn-sm btn-danger btn-delete" data-id="${producto.id}">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>
@@ -159,5 +159,52 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.querySelectorAll('.form-delete').forEach(function(form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            var btn = form.querySelector('.btn-delete');
+            var id = btn.getAttribute('data-id');
+
+            if (!confirm('¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.')) {
+                return;
+            }
+
+            fetch('${pageContext.request.contextPath}/delete-producto', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
+                },
+                body: 'id=' + id
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(data) {
+                if (data.success) {
+                    form.closest('tr').remove();
+                    showAlert('success', 'Producto eliminado correctamente');
+                } else {
+                    showAlert('danger', data.message || 'Error al eliminar');
+                }
+            })
+            .catch(function(error) {
+                showAlert('danger', 'Error de conexión');
+            });
+        });
+    });
+
+    function showAlert(type, message) {
+        var alertDiv = document.createElement('div');
+        alertDiv.className = 'alert alert-' + type + ' alert-dismissible fade show';
+        alertDiv.setAttribute('role', 'alert');
+        alertDiv.innerHTML = '<i class="bi bi-' + (type === 'success' ? 'check-circle' : 'exclamation-triangle') + '"></i> ' + message + '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+        document.querySelector('.container').prepend(alertDiv);
+        setTimeout(function() {
+            alertDiv.remove();
+        }, 5000);
+    }
+    </script>
 </body>
 </html>

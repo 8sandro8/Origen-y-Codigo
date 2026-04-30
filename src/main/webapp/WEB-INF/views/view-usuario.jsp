@@ -66,7 +66,8 @@
                                 <th>Fecha de registro:</th>
                                 <td>
                                     <i class="bi bi-calendar"></i> 
-                                    <fmt:formatDate value="${usuario.fechaRegistro}" pattern="dd/MM/yyyy" />
+                                    <i class="bi bi-calendar"></i>
+                                    ${usuario.fechaRegistro}
                                 </td>
                             </tr>
                             <tr>
@@ -103,7 +104,7 @@
                             </a>
                             <form method="POST" action="${pageContext.request.contextPath}/delete-usuario" style="display:inline;">
                                 <input type="hidden" name="id" value="${usuario.id}">
-                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('¿Estás totally seguro de que deseas eliminar este elemento? Esta acción no se puede deshacer.');">
+                                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.');">
                                     <i class="bi bi-trash"></i> Eliminar usuario
                                 </button>
                             </form>

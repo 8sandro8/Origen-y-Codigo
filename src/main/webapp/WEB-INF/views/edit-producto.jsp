@@ -123,7 +123,7 @@
                         </div>
 
                         <div class="d-flex gap-2">
-                            <button type="submit" class="btn btn-primary">
+                            <button type="submit" class="btn btn-primary" onclick="return confirm('¿Guardar los cambios realizados?');">
                                 <i class="bi bi-check-lg"></i> Guardar Cambios
                             </button>
                             <a href="${pageContext.request.contextPath}/list-productos" class="btn btn-secondary">
